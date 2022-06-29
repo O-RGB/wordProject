@@ -1,58 +1,58 @@
-import { Component, Inject, NgZone, ViewChild } from '@angular/core';
-import { data, dataAll, listdata, promotion, select } from './data';
+import { Component, Inject, NgZone, OnInit, ViewChild } from '@angular/core';
+import { data, dataAll, dataToy, listdata, promotion, select } from './data';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 import { take } from 'rxjs/operators';
-
-// export interface listdata {
-//   category: string
-//   list: data[]
-// }
-// export interface data {
-//   name: string
-//   price_fire: number
-//   price_print: number
-// }
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
-  title = 'wordProject';
+export class AppComponent implements OnInit {
+  title = 'ระบบสร้างรายการ';
   labelPosition: any = 'file'
   i: number = 0
   j: number = 0
   word: string = ""
 
 
+
+  
+
+
   constructor(public dialog: MatDialog, private _ngZone: NgZone) { }
+  ngOnInit(): void {
+    this.ShowData = this.dataWork
+  }
+
   @ViewChild('autosize', { static: false }) autosize: CdkTextareaAutosize | undefined;
   triggerResize() {
     this._ngZone.onStable.pipe(take(1)).subscribe(() => this.autosize!.resizeToFitContent(true));
   }
 
 
-  datatest: listdata[] = dataAll
+  ShowData: listdata[] = []
+  datatoy: listdata[] = dataToy
+  dataWork: listdata[] = dataAll
   public openDialog(i: number, j: number): void {
     this.i = i
     this.j = j
     if (this.labelPosition == "*") {
-      if (!this.datatest[this.i].list[this.j].selection.selection_all) {
+      if (!this.ShowData[this.i].list[this.j].selection.selection_all) {
         const dialogRef = this.dialog.open(DialogAnimationsExampleDialog,
-          { data: { name: this.datatest[this.i].list[this.j].name, printMode: this.datatest[this.i].list[this.j].price_print }, });
+          { data: { name: this.ShowData[this.i].list[this.j].name, printMode: this.ShowData[this.i].list[this.j].price_print }, });
 
         dialogRef.afterClosed().subscribe(result => {
           console.log('The dialog was closed', result);
           if (result == undefined) {
-            this.datatest[this.i].list[this.j].selection.selection_all = false
-            this.datatest[this.i].list[this.j].selection.selection_file = false
-            this.datatest[this.i].list[this.j].selection.selection_print = false
-            this.datatest[this.i].list[this.j].print_selection = 1
+            this.ShowData[this.i].list[this.j].selection.selection_all = false
+            this.ShowData[this.i].list[this.j].selection.selection_file = false
+            this.ShowData[this.i].list[this.j].selection.selection_print = false
+            this.ShowData[this.i].list[this.j].print_selection = 1
           } else {
-            this.datatest[this.i].list[this.j].selection = result
-            this.datatest[this.i].list[this.j].print_selection = 1
+            this.ShowData[this.i].list[this.j].selection = result
+            this.ShowData[this.i].list[this.j].print_selection = 1
           }
 
         });
@@ -66,10 +66,10 @@ export class AppComponent {
 
   public upPrintNumber(i: number, j: number, updown: boolean) {
     if (updown) {
-      this.datatest[i].list[j].print_selection++
+      this.ShowData[i].list[j].print_selection++
     } else {
-      if (this.datatest[i].list[j].print_selection > 1)
-        this.datatest[i].list[j].print_selection--
+      if (this.ShowData[i].list[j].print_selection > 1)
+        this.ShowData[i].list[j].print_selection--
     }
   }
 
@@ -116,12 +116,24 @@ export class AppComponent {
 
   }
 
+  isshowAll:boolean = false
+  public showAllData(){
+    if(!this.isshowAll){
+      this.ShowData = this.ShowData.concat(this.datatoy)
+      this.isshowAll = true
+    }else{
+      this.ShowData = []
+      this.ShowData = this.dataWork
+      this.isshowAll = false
+    }
+  }
+
 
   public checkCreateWord(getPrice: boolean = false): any {
     this.word = '#รายการนะครับ\n'
     let width = 0
     let price = 0
-    this.datatest.forEach((x: listdata) => {
+    this.ShowData.forEach((x: listdata) => {
       
       let dataPromotion = []
       let isFull
@@ -146,7 +158,7 @@ export class AppComponent {
             let promotions = d.link
             promotions.forEach((element: promotion) => {
               element.id.forEach((id,index) => {
-                this.datatest.filter((data:listdata) => data.category == x.category ).filter((list:any) => {
+                this.ShowData.filter((data:listdata) => data.category == x.category ).filter((list:any) => {
                   list.list.forEach((e:any) => {
                     if(e.id == id){
                       if(e.selection.selection_file == true){
@@ -182,7 +194,7 @@ export class AppComponent {
           
           let checkPromotion = pro.every(v => v === true)
           let checkIdLast = d.id == lastId
-          if( checkPromotion &&  checkIdLast){
+          if( checkPromotion &&  checkIdLast && this.labelPosition=="file"){
             this.word += "*" + d.link![0].name + " ลดราคาเหลือ " + d.link_price + " บาท\n\n"
             price -= tempPrice
             price += d.link_price!
@@ -214,7 +226,7 @@ export class AppComponent {
 
   public clean() {
     this.word = ''
-    this.datatest.forEach((x: listdata) =>
+    this.ShowData.forEach((x: listdata) =>
       x.list.forEach((d: data) => {
         d.selection.selection_all = false
         d.selection.selection_file = false

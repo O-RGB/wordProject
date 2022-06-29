@@ -123,7 +123,7 @@
 
         <br>
 
-        <ng-container *ngFor="let category of datatest;let i = index">
+        <ng-container *ngFor="let category of ShowData;let i = index">
 
           <h1 style="color: rgb(162, 162, 162);">{{category.category}}</h1>
           <div class="checkbox-column">
@@ -143,11 +143,11 @@
                     {{list.name}}
                   </mat-checkbox>
 
-                    <span *ngIf="this.datatest[i].list[j].selection.selection_print">
-                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span *ngIf="this.ShowData[i].list[j].selection.selection_print">
+                      &nbsp;&nbsp;&nbsp;&nbsp;
                       <button (click)="upPrintNumber(i,j,false)" class="button-number">-</button>
-                      <input [(ngModel)]="this.datatest[i].list[j].print_selection" 
-                      style="height: 23px;width: 20px;background-color: rgb(76, 76, 76);color: white;" disabled >
+                      <input [(ngModel)]="this.ShowData[i].list[j].print_selection" 
+                      style="height: 23px;width: 25px;background-color: rgb(76, 76, 76);color: white;" disabled >
                       <button (click)="upPrintNumber(i,j,true)" class="button-number">+</button>
                     </span>
                     
@@ -178,16 +178,16 @@
                     {{list.name}} 
                     {{
                       
-                      (this.datatest[i].list[j].selection.selection_all)?
-                      (this.datatest[i].list[j].selection.selection_file && this.datatest[i].list[j].selection.selection_print)?'(ไฟล์) (ปริ้น)':((this.datatest[i].list[j].selection.selection_file)?"(ไฟล์)":(this.datatest[i].list[j].selection.selection_print)?"(ปริ้น)":''):''
+                      (this.ShowData[i].list[j].selection.selection_all)?
+                      (this.ShowData[i].list[j].selection.selection_file && this.ShowData[i].list[j].selection.selection_print)?'(ไฟล์) (ปริ้น)':((this.ShowData[i].list[j].selection.selection_file)?"(ไฟล์)":(this.ShowData[i].list[j].selection.selection_print)?"(ปริ้น)":''):''
                     }} 
                   </mat-checkbox>
 
-                    <span *ngIf="this.datatest[i].list[j].selection.selection_print && this.datatest[i].list[j].selection.selection_all">
-                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span *ngIf="this.ShowData[i].list[j].selection.selection_print && this.ShowData[i].list[j].selection.selection_all">
+                      &nbsp;&nbsp;&nbsp;&nbsp;
                       <button (click)="upPrintNumber(i,j,false)" class="button-number">-</button>
-                      <input [(ngModel)]="this.datatest[i].list[j].print_selection"
-                      style="height: 23px;width: 20px;background-color: rgb(76, 76, 76);color: white;" disabled >
+                      <input [(ngModel)]="this.ShowData[i].list[j].print_selection"
+                      style="height: 23px;width: 25px;background-color: rgb(76, 76, 76);color: white;" disabled >
                       <button (click)="upPrintNumber(i,j,true)" class="button-number">+</button>
                     </span>
 
@@ -210,6 +210,11 @@
 
         <br>
 
+        <div>
+          <button (click)="showAllData()" mat-raised-button  style="width: 100%;">
+            {{(!isshowAll)?'แสดงสื่อการสอนทั้งหมด':'ปิดสื่อการสอนทั้งหมด'}}</button>
+        </div>
+        <br>
         <div>
           <button [color]="'accent'" mat-raised-button (click)="controlCreateword()" style="width: 100%;">Create
             Word</button>
