@@ -3,7 +3,7 @@
   รายการ  {{data.name}}  
 </div>
 <div mat-dialog-actions>
-  <button (click)="closeDialog('print')"  mat-raised-button>สั่งปริ้น</button>
-  <button (click)="closeDialog('file')" mat-raised-button>ไฟล์</button>
-  <button (click)="closeDialog('*')" mat-raised-button>ทั้งหมด</button>
+  <button (click)="closeDialog('print')" [disabled]="(data.printMode == -1)"  mat-raised-button>สั่งปริ้น</button> &nbsp;
+  <button (click)="closeDialog('file')" mat-raised-button>ไฟล์</button> &nbsp;
+  <button (click)="closeDialog('*')" [disabled]="(data.printMode == -1)" mat-raised-button>ทั้งหมด</button> 
 </div>

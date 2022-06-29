@@ -45,7 +45,32 @@
     cursor: pointer;
   }
 
+  .bottomright {
+     position: fixed;
+     bottom: 0px;
+     right: 0px;
+}
+
+.demo {
+     padding: 20px;
+     margin: 5px;
+}
+
 </style>
+
+
+<div class="demo bottomright" style="z-index: 9999;">
+
+  <button (click)="controlCreateword();copyMessage('')" mat-mini-fab color="warn" style="width: 60px;height: 60px;">
+    <mat-icon style="font-size: 25px;">search</mat-icon>
+  </button>
+  <br><br>
+  <button (click)="controlCreateword();copyMessage('')" mat-mini-fab color="accent" style="width: 60px;height: 60px;">
+    <mat-icon style="font-size: 25px;">arrow_downward</mat-icon>
+  </button>
+  
+  
+</div>
 
 <html>
 
@@ -100,14 +125,6 @@
               
               <div [ngSwitch]="labelPosition">
                 <div *ngSwitchCase="'print'">
-
-               
-               
-                 
-                 
-                 
-
-                    
             
                   <p>
                     <mat-checkbox style="font-size: 15px;"
@@ -197,10 +214,10 @@
             [(ngModel)]="word" placeholder="คุณไม่จำเป็นต้องกดคลิกที่นี่"></textarea>
         </mat-form-field>
 
-        <div>
+        <div style="height: auto;">
           <button mat-raised-button (click)="copyMessage('This goes to Clipboard')"
             style="background-color: rgb(93, 93, 93);">{{newMes}}</button>
-          <button (click)="clean()" mat-raised-button style="background-color: rgb(93, 93, 93);">ล้าง</button>
+          <button  (click)="clean()" mat-raised-button style="background-color: rgb(93, 93, 93);">ล้าง</button>
         </div>
 
 
@@ -213,7 +230,9 @@
   </div>
 
 
+<div id="working">
 
+</div>
 
 
 

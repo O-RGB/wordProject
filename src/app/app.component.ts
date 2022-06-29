@@ -41,7 +41,7 @@ export class AppComponent {
     if (this.labelPosition == "*") {
       if (!this.datatest[this.i].list[this.j].selection.selection_all) {
         const dialogRef = this.dialog.open(DialogAnimationsExampleDialog,
-          { data: { name: this.datatest[this.i].list[this.j].name }, });
+          { data: { name: this.datatest[this.i].list[this.j].name, printMode:this.datatest[this.i].list[this.j].price_print}, });
 
         dialogRef.afterClosed().subscribe(result => {
           console.log('The dialog was closed', result);
@@ -106,6 +106,7 @@ export class AppComponent {
       this.word += price + ' บาทครับผม'
       this.word += "\n\n"
     }
+    this.toWorking()
   }
 
   public getStarMode(){
@@ -179,6 +180,11 @@ export class AppComponent {
         console.log(d)
       }))
   }
+
+  public toWorking() {
+    document.getElementById("working")!.scrollIntoView();
+  }
+
 
 
   newMes: string = 'คัดลอก'

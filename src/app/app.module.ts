@@ -16,6 +16,7 @@ import {MatButtonModule} from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatDialogModule} from '@angular/material/dialog';
+import {MatIconModule} from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import {MatDialogModule} from '@angular/material/dialog';
     MatButtonModule,
     FormsModule,
     MatRadioModule,
-    MatDialogModule
+    MatDialogModule,
+    MatIconModule
   ],
   providers: [],
   bootstrap: [AppComponent]
