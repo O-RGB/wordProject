@@ -38,9 +38,13 @@ export var dataAll: listdata[] = [
                 price_print: 240,
                 link: [
                     { 
-                        name: 'ซื้อครบ 3 ชั้น', 
+                        name: 'ซื้อคณิตศาสตร์ครบ 3 ชั้น', 
                         id: ["MATH001", "MATH002", "MATH003"] 
-                    }
+                    },
+                    // { 
+                    //     name: 'ซื้อคณิต อ.1 -เชาว์ อ.1', 
+                    //     id: ["MATH001", "PROB001"] 
+                    // }
                 ],
                 link_price: 280,
                 selection: {
@@ -57,7 +61,7 @@ export var dataAll: listdata[] = [
                 price_print: 240,
                 link: [
                     { 
-                        name: 'ซื้อครบ 3 ชั้น', 
+                        name: 'ซื้อคณิตศาสตร์ครบ 3 ชั้น', 
                         id: ["MATH001", "MATH002", "MATH003"] 
                     }
                 ],
@@ -76,7 +80,7 @@ export var dataAll: listdata[] = [
                 price_print: 240,
                 link: [
                     { 
-                        name: 'ซื้อครบ 3 ชั้น', 
+                        name: 'ซื้อคณิตศาสตร์ครบ 3 ชั้น', 
                         id: ["MATH001", "MATH002", "MATH003"] 
                     }
                 ],
@@ -123,7 +127,7 @@ export var dataAll: listdata[] = [
                 price_print: 230,
                 link: [
                     { 
-                        name: 'ซื้อครบ 3 ชั้น', 
+                        name: 'ซื้อใบงานพื้นฐานครบ 3 ชั้น', 
                         id: ["ZIP001", "ZIP002", "ZIP003"] 
                     }
                 ],
@@ -142,7 +146,7 @@ export var dataAll: listdata[] = [
                 price_print: 240,
                 link: [
                     { 
-                        name: 'ซื้อครบ 3 ชั้น', 
+                        name: 'ซื้อใบงานพื้นฐานครบ 3 ชั้น', 
                         id: ["ZIP001", "ZIP002", "ZIP003"] 
                     }
                 ],
@@ -161,11 +165,39 @@ export var dataAll: listdata[] = [
                 price_print: 240,
                 link: [
                     { 
-                        name: 'ซื้อครบ 3 ชั้น', 
+                        name: 'ซื้อใบงานพื้นฐานครบ 3 ชั้น', 
                         id: ["ZIP001", "ZIP002", "ZIP003"] 
                     }
                 ],
                 link_price: 280,
+                selection: {
+                    selection_all: false,
+                    selection_file: false,
+                    selection_print: false
+                },
+                print_selection: 1
+            },
+        ]
+    },
+    {
+        category: "ใบงานลีลามือ", mode: "ใบงาน", list: [
+            {
+                id: "HAND001",
+                name: "ใบงานลีลามือ",
+                price_fire: 99,
+                price_print: 240,
+                selection: {
+                    selection_all: false,
+                    selection_file: false,
+                    selection_print: false
+                },
+                print_selection: 1
+            },
+            {
+                id: "HAND002",
+                name: "ใบงานลีลามือ (ชุด 2)",
+                price_fire: 69,
+                price_print: -1,
                 selection: {
                     selection_all: false,
                     selection_file: false,
@@ -184,7 +216,7 @@ export var dataAll: listdata[] = [
                 price_print: -1,
                 link: [
                     { 
-                        name: 'ซื้อครบ 3 ชั้น', 
+                        name: 'ซื้อใบงานเชาว์ปัญญาครบ 3 ชั้น', 
                         id: ["PROB001", "PROB002", "PROB003"] 
                     }
                 ],
@@ -203,7 +235,7 @@ export var dataAll: listdata[] = [
                 price_print: -1,
                 link: [
                     { 
-                        name: 'ซื้อครบ 3 ชั้น', 
+                        name: 'ซื้อใบงานเชาว์ปัญญาครบ 3 ชั้น', 
                         id: ["PROB001", "PROB002", "PROB003"] 
                     }
                 ],
@@ -222,7 +254,7 @@ export var dataAll: listdata[] = [
                 price_print: -1,
                 link: [
                     { 
-                        name: 'ซื้อครบ 3 ชั้น', 
+                        name: 'ซื้อใบงานเชาว์ปัญญาครบ 3 ชั้น', 
                         id: ["PROB001", "PROB002", "PROB003"] 
                     }
                 ],
@@ -257,7 +289,7 @@ export var dataAll: listdata[] = [
                 price_print: 149,
                 link: [
                     { 
-                        name: 'ซื้อครบ 2 เรื่อง', 
+                        name: 'ซื้อคำพื้นฐานภาษาไทยครบ 2 เรื่อง', 
                         id: ["TH002", "TH003"] 
                     }
                 ],
@@ -276,7 +308,7 @@ export var dataAll: listdata[] = [
                 price_print: 149,
                 link: [
                     { 
-                        name: 'ซื้อครบ 2 เรื่อง', 
+                        name: 'ซื้อคำพื้นฐานภาษาไทยครบ 2 เรื่อง', 
                         id: ["TH002", "TH003"] 
                     }
                 ],
@@ -299,7 +331,7 @@ export var dataAll: listdata[] = [
                 price_print: 149,
                 link: [
                     { 
-                        name: 'ซื้อครบ 2 เรื่อง', 
+                        name: 'ซื้อคำพื้นฐานอังกฤษครบ 2 เรื่อง', 
                         id: ["ENG001", "ENG002"] 
                     }
                 ],
@@ -318,7 +350,7 @@ export var dataAll: listdata[] = [
                 price_print: 149,
                 link: [
                     { 
-                        name: 'ซื้อครบ 2 เรื่อง', 
+                        name: 'ซื้อคำพื้นฐานอังกฤษครบ 2 เรื่อง', 
                         id: ["ENG001", "ENG002"] 
                     }
                 ],

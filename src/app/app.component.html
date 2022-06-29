@@ -51,6 +51,7 @@
      right: 0px;
 }
 
+
 .demo {
      padding: 20px;
      margin: 5px;
@@ -61,12 +62,17 @@
 
 <div class="demo bottomright" style="z-index: 9999;">
 
-  <button (click)="controlCreateword();copyMessage('')" mat-mini-fab color="warn" style="width: 60px;height: 60px;">
+  <!-- <button (click)="controlCreateword();copyMessage('')" mat-mini-fab color="warn" style="width: 60px;height: 60px;">
     <mat-icon style="font-size: 25px;">search</mat-icon>
   </button>
-  <br><br>
-  <button (click)="controlCreateword();copyMessage('')" mat-mini-fab color="accent" style="width: 60px;height: 60px;">
-    <mat-icon style="font-size: 25px;">arrow_downward</mat-icon>
+  <br><br> -->
+  <button (click)="controlCreateword();copyMessage('')" 
+  mat-mini-fab [color]="(newMes=='คัดลอก')?'accent':'warn'" style="width: 60px;height: 60px;">
+
+    <ng-container [ngSwitch]="newMes">
+      <ng-container *ngSwitchCase="'คัดลอก'"><mat-icon style="font-size: 25px;">arrow_downward</mat-icon></ng-container>
+      <ng-container *ngSwitchDefault>คัดลอก</ng-container>
+    </ng-container>
   </button>
   
   
@@ -100,6 +106,9 @@
 
         <br>
         <div [ngSwitch]="labelPosition">
+          <div *ngSwitchCase="'file'">
+            เลือกไฟล์และคำนวณราคา + โปรโมชัน
+          </div>
           <div *ngSwitchCase="'print'">
             สั่ง 1 ชิ้น ค่าส่ง = 30 &nbsp; | &nbsp;
             สั่ง 2 ชิ้น ค่าส่ง = 40 &nbsp; | &nbsp;
@@ -202,23 +211,36 @@
         <br>
 
         <div>
-          <button mat-raised-button (click)="controlCreateword()" style="background-color: rgb(93, 93, 93);width: 100%;">Create
+          <button [color]="'accent'" mat-raised-button (click)="controlCreateword()" style="width: 100%;">Create
             Word</button>
         </div>
 
         <br>
 
-        <mat-form-field class="example-full-width" style="width: 100%;height: auto;" appearance="fill">
+        <div style="width: 100%;">
+          
+          <p style="align-items: center;">
+            <span>
+                  <button [color]="'warn'" mat-raised-button (click)="copyMessage('This goes to Clipboard')"
+                    style="width: 50%;">{{newMes}}</button>
+            </span>
+            <span>
+              <button  [color]="'primary'" (click)="clean()" mat-raised-button style="width: 50%;">ล้าง</button>
+            </span>
+          </p>
+
+
+        </div>
+
+        <br>
+
+        <mat-form-field class="example-full-width"  style="width: 100%;height: auto;" appearance="fill">
           <mat-label>ผลลัพธ์</mat-label>
           <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" style="overflow: hidden;"
             [(ngModel)]="word" placeholder="คุณไม่จำเป็นต้องกดคลิกที่นี่"></textarea>
         </mat-form-field>
 
-        <div style="height: auto;">
-          <button mat-raised-button (click)="copyMessage('This goes to Clipboard')"
-            style="background-color: rgb(93, 93, 93);">{{newMes}}</button>
-          <button  (click)="clean()" mat-raised-button style="background-color: rgb(93, 93, 93);">ล้าง</button>
-        </div>
+        
 
 
 

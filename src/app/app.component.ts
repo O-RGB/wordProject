@@ -1,5 +1,5 @@
 import { Component, Inject, NgZone, ViewChild } from '@angular/core';
-import { data, dataAll, listdata, select } from './data';
+import { data, dataAll, listdata, promotion, select } from './data';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 import { take } from 'rxjs/operators';
@@ -41,7 +41,7 @@ export class AppComponent {
     if (this.labelPosition == "*") {
       if (!this.datatest[this.i].list[this.j].selection.selection_all) {
         const dialogRef = this.dialog.open(DialogAnimationsExampleDialog,
-          { data: { name: this.datatest[this.i].list[this.j].name, printMode:this.datatest[this.i].list[this.j].price_print}, });
+          { data: { name: this.datatest[this.i].list[this.j].name, printMode: this.datatest[this.i].list[this.j].price_print }, });
 
         dialogRef.afterClosed().subscribe(result => {
           console.log('The dialog was closed', result);
@@ -50,7 +50,7 @@ export class AppComponent {
             this.datatest[this.i].list[this.j].selection.selection_file = false
             this.datatest[this.i].list[this.j].selection.selection_print = false
             this.datatest[this.i].list[this.j].print_selection = 1
-          }else{
+          } else {
             this.datatest[this.i].list[this.j].selection = result
             this.datatest[this.i].list[this.j].print_selection = 1
           }
@@ -64,16 +64,16 @@ export class AppComponent {
 
   }
 
-  public upPrintNumber(i: number, j: number, updown:boolean){
-    if(updown){
-      this.datatest[i].list[j].print_selection ++
-    }else{
-      if(this.datatest[i].list[j].print_selection > 1)
-      this.datatest[i].list[j].print_selection --
+  public upPrintNumber(i: number, j: number, updown: boolean) {
+    if (updown) {
+      this.datatest[i].list[j].print_selection++
+    } else {
+      if (this.datatest[i].list[j].print_selection > 1)
+        this.datatest[i].list[j].print_selection--
     }
   }
 
-  public controlCreateword(){
+  public controlCreateword() {
     if (this.labelPosition == 'file' || this.labelPosition == 'print') {
       this.checkCreateWord()
     } else if (this.labelPosition == '*') {
@@ -84,15 +84,15 @@ export class AppComponent {
       let price = 0
       price += this.checkCreateWord(true)
       tempFile = this.word
-      
+
       this.labelPosition = 'print'
       price += this.checkCreateWord(true)
       tempPrint = this.word
 
       this.labelPosition = '*'
-      console.log("1===",tempFile)
-      console.log("2===",tempPrint)
-      console.log("3===",price)
+      console.log("1===", tempFile)
+      console.log("2===", tempPrint)
+      console.log("3===", price)
 
       this.word = "------[รายการแบบไฟล์]-------\n"
       this.word += tempFile
@@ -109,21 +109,25 @@ export class AppComponent {
     this.toWorking()
   }
 
-  public getStarMode(){
-    if(this.labelPosition == '*'){
+  public getStarMode() {
+    if (this.labelPosition == '*') {
 
     }
 
   }
 
 
-  public checkCreateWord(getPrice:boolean = false):any {
+  public checkCreateWord(getPrice: boolean = false): any {
     this.word = '#รายการนะครับ\n'
     let width = 0
     let price = 0
     this.datatest.forEach((x: listdata) => {
+      
+      let dataPromotion = []
       let isFull
-      x.list.forEach((d: data) => {
+      let tempPrice = 0
+      x.list.forEach((d: data,index:number) => {
+
 
         let checkByMode = false
         if (this.labelPosition == 'file') {
@@ -136,19 +140,58 @@ export class AppComponent {
 
 
         if (checkByMode) {
+          let pro:boolean[] = []
+          let lastId:string = ""
+          if (d.link != null) {
+            let promotions = d.link
+            promotions.forEach((element: promotion) => {
+              element.id.forEach((id,index) => {
+                this.datatest.filter((data:listdata) => data.category == x.category ).filter((list:any) => {
+                  list.list.forEach((e:any) => {
+                    if(e.id == id){
+                      if(e.selection.selection_file == true){
+                        pro.push(true)
+                      }
+                      else{
+                        pro.push(false)
+                      }
+                    }
+                  })
+                })
+                if(index == element.id.length-1){
+                  lastId = id
+                }
+              })
+            });
+          }
+
           this.word += '- ' + x.mode + ' ' + d.name +
             ((this.labelPosition == 'print') ? ((x.mode == 'ชิ้นงาน') ? ' (ชิ้นงาน)' : ' (ปริ้น)') : ' (ไฟล์)') + '\n'
-          if(this.labelPosition == 'print') this.word += '* '+ d.print_selection + ' ชุด\n'
+          if (this.labelPosition == 'print') this.word += '* ' + d.print_selection + ' ชุด\n'
           this.word += 'ราคา '
           if (this.labelPosition == "file") {
             this.word += d.price_fire
             price += d.price_fire
+            tempPrice += d.price_fire
           } else if (this.labelPosition == "print") {
             this.word += d.price_print * d.print_selection
             price += d.price_print * d.print_selection
           }
-          this.word += ' บาท' + '\n\n'
-          width += 1* d.print_selection
+          this.word += ' บาท' + '\n'
+
+          
+          let checkPromotion = pro.every(v => v === true)
+          let checkIdLast = d.id == lastId
+          if( checkPromotion &&  checkIdLast){
+            this.word += "*" + d.link![0].name + " ลดราคาเหลือ " + d.link_price + " บาท\n\n"
+            price -= tempPrice
+            price += d.link_price!
+          }else{
+            this.word += '\n'
+          }
+
+          width += 1 * d.print_selection
+         
 
         }
       })
@@ -164,7 +207,7 @@ export class AppComponent {
     this.word += '- ราคารวม\n'
     this.word += price + ' บาทครับผม\n'
 
-    if(getPrice) return price
+    if (getPrice) return price
   }
 
 
@@ -177,7 +220,6 @@ export class AppComponent {
         d.selection.selection_file = false
         d.selection.selection_print = false
         d.print_selection = 1
-        console.log(d)
       }))
   }
 
@@ -214,20 +256,20 @@ export class AppComponent {
   templateUrl: './dialog-animations-example-dialog.html',
 })
 export class DialogAnimationsExampleDialog {
-  select:select = {
+  select: select = {
     selection_all: false,
     selection_file: false,
     selection_print: false
   }
   constructor(public dialogRef: MatDialogRef<DialogAnimationsExampleDialog>, @Inject(MAT_DIALOG_DATA) public data: any,) { }
   closeDialog(mode: string) {
-    if(mode == 'file'){
+    if (mode == 'file') {
       this.select.selection_file = true
       this.select.selection_print = false
-    }else if(mode == 'print'){
+    } else if (mode == 'print') {
       this.select.selection_file = false
       this.select.selection_print = true
-    }else if(mode == '*'){
+    } else if (mode == '*') {
       this.select.selection_file = true
       this.select.selection_print = true
     }
