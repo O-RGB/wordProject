@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "createwordforsale": {
+      "hosting": {
+        "wordProject": [
+          "createwordforsale"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "createwordforsale"
+  }
+}
