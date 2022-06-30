@@ -1,71 +1,84 @@
 import { Injectable } from '@angular/core';
 import { product } from './data-class';
+import { productDataModel, productNode } from './data-interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CreateDataService {
 
-  private MainProduct:product[] = []
-  private ToyProduct:product[] = []
+  private MainProduct: product[] = []
+  private ToyProduct: product[] = []
+  private mode: string[] = ['ใบงาน', 'สื่อการสอน']
   //รหัสสินค้า, ชื่อสินค้า, ราคาสินค้า, ราคาแบบปริ้น (ถ้ารับปริ้น || -1), Word โปรโมชัน (ถ้ามี), รหัสสินค้าที่ซื้อด้วยกัน (ถ้ามี), ราคาเมื่อซื้อตรงตามโปรโมชันแล้ว (ถ้ามี)
   private constructor() {
     this.createMainData()
     this.createToyData()
   }
 
-  private createMainData(){
-    var productTemp = new product('คณิตศาสตร์', 'ใบงาน')
+  private createMainData() {
+    var productTemp = new product('คณิตศาสตร์', this.mode[0])
     productTemp.createData('MATH001', 'คณิตศาสตร์ อ.1', 99, 240, "ซื้อคณิตศาสตร์ครบ 3 ชั้น", ["MATH001", "MATH002", "MATH003"], 280)
     productTemp.createData('MATH002', 'คณิตศาสตร์ อ.2', 99, 240, "ซื้อคณิตศาสตร์ครบ 3 ชั้น", ["MATH001", "MATH002", "MATH003"], 280)
     productTemp.createData('MATH003', 'คณิตศาสตร์ อ.3', 99, 240, "ซื้อคณิตศาสตร์ครบ 3 ชั้น", ["MATH001", "MATH002", "MATH003"], 280)
+    productTemp.createData('MATH004', 'คณิตศาสตร์ ป.1 (เทอม 1)', 150, 200,)
+    productTemp.createData('MATH005', 'คณิตศาสตร์ ป.1 (เทอม 2)', 150, 200,)
     this.MainProduct.push(productTemp)
 
-    productTemp = new product('ใบงานพื้นฐาน', 'ใบงาน')
+    productTemp = new product('ใบงานพื้นฐาน', this.mode[0])
     productTemp.createData('ZIP001', 'พื้นฐาน อ.1', 99, 230, "ซื้อใบงานพื้นฐานครบ 3 ชั้น", ["ZIP001", "ZIP002", "ZIP003"], 280)
     productTemp.createData('ZIP002', 'พื้นฐาน อ.2', 99, 240, "ซื้อใบงานพื้นฐานครบ 3 ชั้น", ["ZIP001", "ZIP002", "ZIP003"], 280)
     productTemp.createData('ZIP003', 'พื้นฐาน อ.3', 99, 240, "ซื้อใบงานพื้นฐานครบ 3 ชั้น", ["ZIP001", "ZIP002", "ZIP003"], 280)
     this.MainProduct.push(productTemp)
 
-    productTemp = new product('ใบงานลีลามือ', 'ใบงาน')
+    productTemp = new product('ใบงานลีลามือ', this.mode[0])
     productTemp.createData('HAND001', 'ใบงานลีลามือ', 99, 230)
     productTemp.createData('HAND002', 'ใบงานลีลามือ (ชุด 2)', 69)
     this.MainProduct.push(productTemp)
 
-    productTemp = new product('ใบงานเชาว์ปัญญา', 'ใบงาน')
+    productTemp = new product('ใบงานเชาว์ปัญญา', this.mode[0])
     productTemp.createData('PROB001', 'เชาว์ปัญญา อ.1', 99, -1, "ซื้อคณิตศาสตร์ครบ 3 ชั้น", ["PROB001", "PROB002", "PROB003"], 280)
     productTemp.createData('PROB002', 'เชาว์ปัญญา อ.2', 99, -1, "ซื้อคณิตศาสตร์ครบ 3 ชั้น", ["PROB001", "PROB002", "PROB003"], 280)
     productTemp.createData('PROB003', 'เชาว์ปัญญา อ.3', 99, -1, "ซื้อคณิตศาสตร์ครบ 3 ชั้น", ["PROB001", "PROB002", "PROB003"], 280)
     this.MainProduct.push(productTemp)
 
-    productTemp = new product('ใบงานภาษาไทย', 'ใบงาน')
+    productTemp = new product('ใบงานภาษาไทย', this.mode[0])
     productTemp.createData('TH001', 'พื้นฐาน ภาษาไทย', 99, 240)
     productTemp.createData('TH002', 'คำพื้นฐานภาษาไทย (เขียนเอง)', 99, 149, "ซื้อคำพื้นฐานภาษาไทยครบ 2 เรื่อง", ["TH002", "TH003"], 99)
-    productTemp.createData('TH003', 'คำพื้นฐานภาษาไทย (เส้นประ)',  99, 149, "ซื้อคำพื้นฐานภาษาไทยครบ 2 เรื่อง", ["TH002", "TH003"], 99)
+    productTemp.createData('TH003', 'คำพื้นฐานภาษาไทย (เส้นประ)', 99, 149, "ซื้อคำพื้นฐานภาษาไทยครบ 2 เรื่อง", ["TH002", "TH003"], 99)
     productTemp.createData('TH004', 'แบบฝึกหัดประสมคำพื้นฐาน', 29)
     this.MainProduct.push(productTemp)
 
-    productTemp = new product('ใบงานภาษาไทย', 'ใบงาน')
+    productTemp = new product('ใบงานภาษาอังกฤษ', this.mode[0])
     productTemp.createData('ENG001', 'คำพื้นฐานอังกฤษ (เขียนเอง)', 99, 149, "ซื้อคำพื้นฐานอังกฤษครบ 2 เรื่อง", ["ENG001", "ENG002"], 99)
     productTemp.createData('ENG002', 'คำพื้นฐานอังกฤษ (เส้นประ)', 99, 149, "ซื้อคำพื้นฐานอังกฤษครบ 2 เรื่อง", ["ENG001", "ENG002"], 99)
     this.MainProduct.push(productTemp)
 
-    productTemp = new product('แบบฝึกหัดพื้นฐาน', 'ใบงาน')
+    productTemp = new product('แบบฝึกหัดพื้นฐาน', this.mode[0])
     productTemp.createData('SOL001', 'แบบฝึกหัดคัด ก - ฮ', 40)
     productTemp.createData('SOL002', 'แบบฝึกหัดคัด A - B', 30)
     productTemp.createData('SOL003', 'แบบฝึกหัดคัด 1 - 10', 20)
     productTemp.createData('SOL004', 'แบบฝึกหัดคัด 1 - 100', 59)
     this.MainProduct.push(productTemp)
+
+    productTemp = new product('ใบงานอนุบาล (เหมา)', this.mode[0])
+    productTemp.createData('WALL001', 'คณิตศาสตร์ (เหมา)', 100, -1, "ซื้อครบทุกหมวด (เหมา)", ['WALL001', 'WALL002', 'WALL003', 'WALL004', 'WALL005'], 350)
+    productTemp.createData('WALL002', 'หมวดภาษาไทย (เหมา)', 200, -1, "ซื้อครบทุกหมวด (เหมา)", ['WALL001', 'WALL002', 'WALL003', 'WALL004', 'WALL005'], 350)
+    productTemp.createData('WALL003', 'วิทยาศาสตร์ (เหมา)', 100, -1, "ซื้อครบทุกหมวด (เหมา)", ['WALL001', 'WALL002', 'WALL003', 'WALL004', 'WALL005'], 350)
+    productTemp.createData('WALL004', 'ภาษาอังกฤษ (เหมา)', 100, -1, "ซื้อครบทุกหมวด (เหมา)", ['WALL001', 'WALL002', 'WALL003', 'WALL004', 'WALL005'], 350)
+    productTemp.createData('WALL005', 'รับครบทุกหมวด', 200, -1, "ซื้อครบทุกหมวด (เหมา)", ['WALL001', 'WALL002', 'WALL003', 'WALL004', 'WALL005'], 350)
+    this.MainProduct.push(productTemp)
+
   }
 
-  private createToyData(){
-    var productTemp = new product('ไม้บรรทัด', 'สื่อการสอน')
+  private createToyData() {
+    var productTemp = new product('ไม้บรรทัด', this.mode[1])
     productTemp.createData('TOYS001', 'ไม้บรรทัดสระไทย', 50, 259)
     productTemp.createData('TOYS002', 'ไม้บรรทัดภาษาอังกฤษ', 50, 259)
     productTemp.createData('TOYS003', 'ไม้บรรทัดฝึกคูณ', 50, 259)
     this.ToyProduct.push(productTemp)
 
-    var productTemp = new product('บิงโก', 'สื่อการสอน')
+    var productTemp = new product('บิงโก', this.mode[1])
     productTemp.createData('BIN001', 'บิงโก การบวก', 38, 259)
     productTemp.createData('BIN002', 'บิงโก การลบ', 38, 259)
     productTemp.createData('BIN003', 'บิงโก การคูณ', 38, 259)
@@ -82,7 +95,7 @@ export class CreateDataService {
     productTemp.createData('BIN014', 'บิงโก อักษรภาษาอังกฤษ', 38, 259)
     this.ToyProduct.push(productTemp)
 
-    var productTemp = new product('โดมิโน', 'สื่อการสอน')
+    var productTemp = new product('โดมิโน', this.mode[1])
     productTemp.createData('DOBI001', 'โดมิโน การบวก', 38, 129)
     productTemp.createData('DOBI002', 'โดมิโน การลบ', 38, 129)
     productTemp.createData('DOBI003', 'โดมิโน การคูณ', 38, 129)
@@ -102,7 +115,7 @@ export class CreateDataService {
     productTemp.createData('DOBI017', 'โดมิโน สัตว์ ผัก ผลไม้', 38)
     this.ToyProduct.push(productTemp)
 
-    var productTemp = new product('ธง', 'สื่อการสอน')
+    var productTemp = new product('ธง', this.mode[1])
     productTemp.createData('TONG001', 'ธง A-Z (ใหม่)', 50)
     productTemp.createData('TONG002', 'ธง ก-ฮ (ใหม่)', 50)
     productTemp.createData('TONG003', 'ธง A-Z', 30)
@@ -115,11 +128,25 @@ export class CreateDataService {
     this.ToyProduct.push(productTemp)
   }
 
-  public getDataMain():product[]{
+  public getDataMain(): product[] {
     return this.MainProduct
   }
 
-  public getDataToy():product[]{
+  public getDataToy(): product[] {
     return this.ToyProduct
   }
+
+  public getTree():productNode[] {
+    var arrayAll:productNode[] = []
+    let listName:string[] = this.MainProduct.map((product: product) => {return product.category})
+    let name:string = this.mode[0]
+    arrayAll.push({name:name,children:listName})
+
+    listName = this.ToyProduct.map((product: product) => {return product.category})
+    name = this.mode[1]
+    arrayAll.push({name:name,children:listName})
+    
+    return arrayAll
+  }
+
 }

@@ -18,11 +18,14 @@ import {MatRadioModule} from '@angular/material/radio';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatIconModule} from '@angular/material/icon';
 import { DialogSearchComponent } from './dialog-search/dialog-search.component';
+import {MatTreeModule} from '@angular/material/tree';
+import { TreeNestedComponent } from './treeNested/tree-nested/tree-nested.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    DialogSearchComponent
+    DialogSearchComponent,
+    TreeNestedComponent
   ],
   imports: [
     BrowserModule,
@@ -40,8 +43,12 @@ import { DialogSearchComponent } from './dialog-search/dialog-search.component';
     MatRadioModule,
     MatDialogModule,
     MatIconModule,
+    MatTreeModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  exports:[
+    TreeNestedComponent
+  ]
 })
 export class AppModule { }

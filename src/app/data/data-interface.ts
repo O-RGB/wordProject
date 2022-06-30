@@ -25,3 +25,8 @@ export interface promotion {
     id: string[]
 }
 
+
+export interface productNode {
+    name: string;
+    children?: string[];
+  }

@@ -4,9 +4,9 @@
     }
 </style>
 
-<html style="overflow: auto;z-index: 99999999999;">
-    <ul>
-    <div  *ngFor="let item of dataShow;let i = index" >
+<mat-dialog-content>
+<body style="overflow: auto;z-index: 99999999999;">
+    <!-- <div  *ngFor="let item of dataShow;let i = index" >
   
         <ng-container *ngIf="(i == 0 || i == newCategoray)">
             <br>
@@ -15,11 +15,14 @@
         </ng-container>
        
         
-            <li><button (click)="closeDialog(item.category,i)" mat-raised-button> {{item.category}}</button></li>
+            <button (click)="closeDialog(item.category,i)" mat-raised-button> {{item.category}}</button>
 
          
     
         
-    </div> </ul>
+    </div>  -->
+    <app-tree-nested (onClickManu)="closeDialog($event.name,-1,$event.mode)"></app-tree-nested>
+
     
-</html>
+</body>
+</mat-dialog-content>

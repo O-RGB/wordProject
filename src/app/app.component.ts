@@ -127,12 +127,14 @@ export class AppComponent implements OnInit {
       this.word += "\n\n"
     }
     this.toWorking()
+    this.copyMessage('')
   }
 
   public getStarMode() {
     if (this.labelPosition == '*') {
 
     }
+    
 
   }
 
@@ -266,8 +268,16 @@ export class AppComponent implements OnInit {
   }
 
   public toWorking() {
-    var e = document.getElementById("working")!
-    e.scrollIntoView();
+    setTimeout(() => {
+      var e = document.getElementById("working")!
+      e.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      
+    }, 100);
+  }
+
+  public toTop() {
+    var e = document.getElementById("top")!
+    e.scrollIntoView({behavior: 'smooth' });
   }
 
   public onSeacrh(id: string) {

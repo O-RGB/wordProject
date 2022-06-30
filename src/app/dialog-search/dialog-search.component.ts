@@ -30,9 +30,15 @@ export class DialogSearchComponent implements OnInit {
   
   }
 
-  closeDialog(name:string,mode:number) {
-    if(name != null && mode != null){
+  closeDialog(name:string,mode:number,setMode?:string) {
+    console.log(name,mode)
+    if(name != null && mode != null && mode != -1){
       this.dataReturn.mode = (mode >= this.newCategoray)?"สื่อการสอน":"ใบงาน"
+      this.dataReturn.nameReturn = name
+      this.dialogRef.close(this.dataReturn);
+    }
+    else if(setMode){
+      this.dataReturn.mode = setMode
       this.dataReturn.nameReturn = name
       this.dialogRef.close(this.dataReturn);
     }

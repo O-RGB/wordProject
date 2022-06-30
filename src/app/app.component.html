@@ -57,41 +57,60 @@
      margin: 5px;
 }
 
+.test-mat-toolbar {
+  position: sticky;
+  top: 0px;
+  width: 100%;
+  background-color: rgb(66, 66, 66);
+
+  padding-top: 10px;
+
+  z-index: 999999999;
+}
+
 </style>
 
 
 <div class="demo bottomright" style="z-index: 9999;">
 
-  <button (click)="dialogSearch()" [disabled]="dialogSearchShow" mat-mini-fab color="warn" style="width: 50px;height: 50px;">
-    <mat-icon style="font-size: 23px;">search</mat-icon>
+  <button (click)="dialogSearch()" [disabled]="dialogSearchShow" color="" mat-mini-fab style="width: 50px;height: 50px;">
+    <mat-icon style="font-size: 20px;color: white;">search</mat-icon>
+  </button>
+  <br><br>
+  <button  (click)="clean();toTop()" [disabled]="dialogSearchShow" mat-mini-fab color="primary" style="width: 50px;height: 50px;">
+    <mat-icon style="font-size: 20px;">delete_outline</mat-icon>
   </button>
   <br><br>
   <button [disabled]="dialogSearchShow" (click)="controlCreateword();copyMessage('')" 
   mat-mini-fab [color]="(newMes=='คัดลอก')?'accent':'warn'" style="width: 50px;height: 50px;">
 
     <ng-container [ngSwitch]="newMes">
-      <ng-container *ngSwitchCase="'คัดลอก'"><mat-icon style="font-size: 23px;">arrow_downward</mat-icon></ng-container>
-      <ng-container *ngSwitchDefault>คัดลอก</ng-container>
+      <ng-container *ngSwitchCase="'คัดลอก'"><mat-icon style="font-size: 20px;color: white;">save</mat-icon></ng-container>
+      <ng-container *ngSwitchDefault><mat-icon style="font-size: 20px;color: white;">library_books</mat-icon></ng-container>
     </ng-container>
   </button>
   
   
 </div>
 
-<html>
+<html style="width: 100%;">
+
+
 
 <body style="background-color: aliceblue;height: 100%;width: 100%">
 
-  <div style="align-items: center;">
-    <mat-card style="height: auto;">
+ 
+
+  <div id="top" style="align-items: center;width: 100%;">
+    <mat-card style="height: auto;width: 100%;">
       <mat-card-title>ระบบสร้างรายการ</mat-card-title>
-      <mat-card-subtitle>เลือกงานที่ต้องการสร้าง <br>*เวอร์ชัน Demo โปรดตรวจสอบความถูกต้องก่อนนำไปใช้งานจริง</mat-card-subtitle>
+      <mat-card-subtitle>เลือกงานที่ต้องการสร้าง <br>*เวอร์ชัน Bata Test ver.1.5 ทดลองใช้งานจริงแล้ว</mat-card-subtitle>
       <mat-card-actions style="padding: 30px;">
 
 
 
         <h2 style="color: rgb(162, 162, 162);">รูปแบบรายการ</h2>
-        <div>
+        <div class="test-mat-toolbar" style="margin-top: -20px;">
 
           <mat-radio-group [(ngModel)]="labelPosition">
             <mat-radio-button (change)="clean()" value="file" style="font-size: 15px;">ไฟล์เท่านั้น</mat-radio-button>
@@ -100,6 +119,8 @@
             &nbsp;
             <mat-radio-button (change)="clean()" value="*" style="font-size: 15px;">ผสม</mat-radio-button>
           </mat-radio-group>
+          <br>
+          <div style="height: 5px;"></div>
 
         </div>
 
@@ -216,8 +237,7 @@
         </div>
         <br>
         <div>
-          <button [color]="'accent'" mat-raised-button (click)="controlCreateword()" style="width: 100%;">Create
-            Word</button>
+          <button [color]="'accent'" mat-raised-button (click)="controlCreateword()" style="width: 100%;"><mat-icon style="font-size: 20px;">save</mat-icon>สร้างรายการ</button>
         </div>
 
         <br>
@@ -227,10 +247,10 @@
           <p style="align-items: center;">
             <span>
                   <button [color]="'warn'" mat-raised-button (click)="copyMessage('This goes to Clipboard')"
-                    style="width: 50%;">{{newMes}}</button>
+                    style="width: 50%;"><mat-icon style="font-size: 20px;color: white;">library_books</mat-icon>{{newMes}}</button>
             </span>
             <span>
-              <button  [color]="'primary'" (click)="clean()" mat-raised-button style="width: 50%;">ล้าง</button>
+              <button  [color]="'primary'" (click)="clean();toTop()" mat-raised-button style="width: 50%;"><mat-icon style="font-size: 20px;">delete_outline</mat-icon>ล้าง</button>
             </span>
           </p>
 
@@ -244,10 +264,6 @@
           <textarea id="working" matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" style="overflow: hidden;"
             [(ngModel)]="word" placeholder="คุณไม่จำเป็นต้องกดคลิกที่นี่"></textarea>
         </mat-form-field>
-
-        
-
-
 
       </mat-card-actions>
 
