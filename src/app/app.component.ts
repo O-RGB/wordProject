@@ -48,7 +48,6 @@ export class AppComponent implements OnInit {
           { data: { name: this.ShowData[this.i].list[this.j].name, printMode: this.ShowData[this.i].list[this.j].price_print }, });
 
         dialogRef.afterClosed().subscribe(result => {
-          console.log('The dialog was closed', result);
           if (result == undefined) {
             this.ShowData[this.i].list[this.j].selection.selection_all = false
             this.ShowData[this.i].list[this.j].selection.selection_file = false
@@ -114,9 +113,6 @@ export class AppComponent implements OnInit {
       tempPrint = this.word
 
       this.labelPosition = '*'
-      console.log("1===", tempFile)
-      console.log("2===", tempPrint)
-      console.log("3===", price)
 
       this.word = "------[รายการแบบไฟล์]-------\n"
       this.word += tempFile
@@ -146,12 +142,10 @@ export class AppComponent implements OnInit {
       if (!this.isshowAll) {
         this.ShowData = this.ShowData.concat(this.datatoy)
         this.isshowAll = true
-        console.log("Add new data")
       } else {
         this.ShowData = []
         this.ShowData = this.dataWork
         this.isshowAll = false
-        console.log("reset data")
       }
     } else {
       if (!this.isshowAll) {
@@ -160,10 +154,8 @@ export class AppComponent implements OnInit {
         this.isshowAll = false
         this.ShowData = this.ShowData.concat(this.datatoy)
         this.isshowAll = true
-        console.log("Add new data search mode")
       }
     }
-    console.log(this.isshowAll)
   }
 
 
