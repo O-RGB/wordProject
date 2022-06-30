@@ -1,6 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { dataAll, dataToy, listdata } from '../data';
+import { CreateDataService } from '../data/create-data.service';
+import { productModel } from '../data/data-interface';
+
 
 export interface dataReturn{
   mode:string
@@ -14,15 +16,15 @@ export interface dataReturn{
 })
 export class DialogSearchComponent implements OnInit {
 
-  dataShow:listdata[] = []
+  dataShow:productModel[] = []
   newCategoray:number = 0
   dataReturn:dataReturn = {
     mode: '',
     nameReturn: ''
   }
-  constructor(public dialogRef: MatDialogRef<DialogSearchComponent>, @Inject(MAT_DIALOG_DATA) public data: any,) { 
+  constructor(public dialogRef: MatDialogRef<DialogSearchComponent>, @Inject(MAT_DIALOG_DATA) public data: any,private dataService:CreateDataService) { 
     this.dataShow = this.getData()
-    this.newCategoray = dataAll.length-1
+    this.newCategoray = this.dataService.getDataMain().length-1
   }
   ngOnInit(): void {
   
@@ -36,13 +38,13 @@ export class DialogSearchComponent implements OnInit {
     }
   }
 
-  getData():listdata[]{
+  getData():productModel[]{
 
-    let dataShow:listdata[] = []
-    dataAll.forEach((element:listdata) => {
+    let dataShow:productModel[] = []
+    this.dataService.getDataMain().forEach((element:productModel) => {
       dataShow.push(element)
     });
-    dataToy.forEach((element:listdata) => {
+    this.dataService.getDataToy().forEach((element:productModel) => {
       dataShow.push(element)
     });
 

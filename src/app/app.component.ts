@@ -1,9 +1,10 @@
 import { Component, Inject, NgZone, OnInit, ViewChild } from '@angular/core';
-import { data, dataAll, dataToy, listdata, promotion, select } from './data';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 import { take } from 'rxjs/operators';
 import { DialogSearchComponent } from './dialog-search/dialog-search.component';
+import { CreateDataService } from './data/create-data.service';
+import { productDataModel, productModel, promotion, select } from './data/data-interface';
 
 @Component({
   selector: 'app-root',
@@ -22,7 +23,9 @@ export class AppComponent implements OnInit {
 
 
 
-  constructor(public dialog: MatDialog, private _ngZone: NgZone) { }
+  constructor(public dialog: MatDialog, private _ngZone: NgZone,private datService:CreateDataService) {
+
+   }
   ngOnInit(): void {
     this.ShowData = this.dataWork
   }
@@ -33,9 +36,9 @@ export class AppComponent implements OnInit {
   }
 
 
-  ShowData: listdata[] = []
-  datatoy: listdata[] = dataToy
-  dataWork: listdata[] = dataAll
+  ShowData: productModel[] = []
+  datatoy: productModel[] = this.datService.getDataToy()
+  dataWork: productModel[] = this.datService.getDataMain()
   public openDialog(i: number, j: number): void {
     this.i = i
     this.j = j
@@ -168,12 +171,12 @@ export class AppComponent implements OnInit {
     this.word = '🔥🔥รายการนะครับ🔥🔥\n'
     let width = 0
     let price = 0
-    this.ShowData.forEach((x: listdata) => {
+    this.ShowData.forEach((x: productModel) => {
 
       let dataPromotion = []
       let isFull
       let tempPrice = 0
-      x.list.forEach((d: data, index: number) => {
+      x.list.forEach((d: productDataModel, index: number) => {
 
 
         let checkByMode = false
@@ -193,7 +196,7 @@ export class AppComponent implements OnInit {
             let promotions = d.link
             promotions.forEach((element: promotion) => {
               element.id.forEach((id, index) => {
-                this.ShowData.filter((data: listdata) => data.category == x.category).filter((list: any) => {
+                this.ShowData.filter((data: productModel) => data.category == x.category).filter((list: any) => {
                   list.list.forEach((e: any) => {
                     if (e.id == id) {
                       if (e.selection.selection_file == true) {
@@ -261,8 +264,8 @@ export class AppComponent implements OnInit {
 
   public clean() {
     this.word = ''
-    this.ShowData.forEach((x: listdata) =>
-      x.list.forEach((d: data) => {
+    this.ShowData.forEach((x: productModel) =>
+      x.list.forEach((d: productDataModel) => {
         d.selection.selection_all = false
         d.selection.selection_file = false
         d.selection.selection_print = false
