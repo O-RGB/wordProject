@@ -53,7 +53,7 @@
 
 
 .demo {
-     padding: 20px;
+     padding: 10px;
      margin: 5px;
 }
 
@@ -62,15 +62,15 @@
 
 <div class="demo bottomright" style="z-index: 9999;">
 
-  <!-- <button (click)="controlCreateword();copyMessage('')" mat-mini-fab color="warn" style="width: 60px;height: 60px;">
-    <mat-icon style="font-size: 25px;">search</mat-icon>
+  <button (click)="dialogSearch()" [disabled]="dialogSearchShow" mat-mini-fab color="warn" style="width: 50px;height: 50px;">
+    <mat-icon style="font-size: 23px;">search</mat-icon>
   </button>
-  <br><br> -->
-  <button (click)="controlCreateword();copyMessage('')" 
-  mat-mini-fab [color]="(newMes=='คัดลอก')?'accent':'warn'" style="width: 60px;height: 60px;">
+  <br><br>
+  <button [disabled]="dialogSearchShow" (click)="controlCreateword();copyMessage('')" 
+  mat-mini-fab [color]="(newMes=='คัดลอก')?'accent':'warn'" style="width: 50px;height: 50px;">
 
     <ng-container [ngSwitch]="newMes">
-      <ng-container *ngSwitchCase="'คัดลอก'"><mat-icon style="font-size: 25px;">arrow_downward</mat-icon></ng-container>
+      <ng-container *ngSwitchCase="'คัดลอก'"><mat-icon style="font-size: 23px;">arrow_downward</mat-icon></ng-container>
       <ng-container *ngSwitchDefault>คัดลอก</ng-container>
     </ng-container>
   </button>
@@ -125,7 +125,7 @@
 
         <ng-container *ngFor="let category of ShowData;let i = index">
 
-          <h1 style="color: rgb(162, 162, 162);">{{category.category}}</h1>
+          <h1 [id]="category.category" style="color: rgb(162, 162, 162);">{{category.category}}</h1>
           <div class="checkbox-column">
             <section> 
                <ng-container *ngFor="let list of category.list;let j = index">
@@ -241,7 +241,7 @@
 
         <mat-form-field class="example-full-width"  style="width: 100%;height: auto;" appearance="fill">
           <mat-label>ผลลัพธ์</mat-label>
-          <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" style="overflow: hidden;"
+          <textarea id="working" matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" style="overflow: hidden;"
             [(ngModel)]="word" placeholder="คุณไม่จำเป็นต้องกดคลิกที่นี่"></textarea>
         </mat-form-field>
 
@@ -255,11 +255,6 @@
 
     </mat-card>
   </div>
-
-
-<div id="working">
-
-</div>
 
 
 

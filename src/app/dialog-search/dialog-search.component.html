@@ -1,0 +1,25 @@
+<style>
+    button{
+        font-size: 18px;
+    }
+</style>
+
+<html style="overflow: auto;z-index: 99999999999;">
+    <ul>
+    <div  *ngFor="let item of dataShow;let i = index" >
+  
+        <ng-container *ngIf="(i == 0 || i == newCategoray)">
+            <br>
+            <h1 >{{(i >= newCategoray)?"สื่อการสอน":"ใบงาน"}}</h1>
+            
+        </ng-container>
+       
+        
+            <li><button (click)="closeDialog(item.category,i)" mat-raised-button> {{item.category}}</button></li>
+
+         
+    
+        
+    </div> </ul>
+    
+</html>

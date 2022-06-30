@@ -3,6 +3,7 @@ import { data, dataAll, dataToy, listdata, promotion, select } from './data';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 import { take } from 'rxjs/operators';
+import { DialogSearchComponent } from './dialog-search/dialog-search.component';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +19,7 @@ export class AppComponent implements OnInit {
 
 
 
-  
+
 
 
   constructor(public dialog: MatDialog, private _ngZone: NgZone) { }
@@ -59,9 +60,29 @@ export class AppComponent implements OnInit {
       }
 
     }
+  }
 
 
+  dialogSearchShow: boolean = false
+  public dialogSearch() {
+    if (this.dialogSearchShow == false) {
+      const dialogRef = this.dialog.open(DialogSearchComponent)
 
+      this.dialogSearchShow = true
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          if (result.mode == 'ใบงาน') {
+            this.onSeacrh(result.nameReturn)
+          } else {
+            this.showAllData(true)
+            setTimeout(() => {
+              this.onSeacrh(result.nameReturn)
+            }, 200);
+          }
+        }
+        this.dialogSearchShow = false
+      })
+    }
   }
 
   public upPrintNumber(i: number, j: number, updown: boolean) {
@@ -116,29 +137,43 @@ export class AppComponent implements OnInit {
 
   }
 
-  isshowAll:boolean = false
-  public showAllData(){
-    if(!this.isshowAll){
-      this.ShowData = this.ShowData.concat(this.datatoy)
-      this.isshowAll = true
-    }else{
-      this.ShowData = []
-      this.ShowData = this.dataWork
-      this.isshowAll = false
+  isshowAll: boolean = false
+  public showAllData(searchMode: boolean = false) {
+    if (!searchMode) {
+      if (!this.isshowAll) {
+        this.ShowData = this.ShowData.concat(this.datatoy)
+        this.isshowAll = true
+        console.log("Add new data")
+      } else {
+        this.ShowData = []
+        this.ShowData = this.dataWork
+        this.isshowAll = false
+        console.log("reset data")
+      }
+    } else {
+      if (!this.isshowAll) {
+        this.ShowData = []
+        this.ShowData = this.dataWork
+        this.isshowAll = false
+        this.ShowData = this.ShowData.concat(this.datatoy)
+        this.isshowAll = true
+        console.log("Add new data search mode")
+      }
     }
+    console.log(this.isshowAll)
   }
 
 
   public checkCreateWord(getPrice: boolean = false): any {
-    this.word = '#รายการนะครับ\n'
+    this.word = '🔥🔥รายการนะครับ🔥🔥\n'
     let width = 0
     let price = 0
     this.ShowData.forEach((x: listdata) => {
-      
+
       let dataPromotion = []
       let isFull
       let tempPrice = 0
-      x.list.forEach((d: data,index:number) => {
+      x.list.forEach((d: data, index: number) => {
 
 
         let checkByMode = false
@@ -152,35 +187,35 @@ export class AppComponent implements OnInit {
 
 
         if (checkByMode) {
-          let pro:boolean[] = []
-          let lastId:string = ""
+          let pro: boolean[] = []
+          let lastId: string = ""
           if (d.link != null) {
             let promotions = d.link
             promotions.forEach((element: promotion) => {
-              element.id.forEach((id,index) => {
-                this.ShowData.filter((data:listdata) => data.category == x.category ).filter((list:any) => {
-                  list.list.forEach((e:any) => {
-                    if(e.id == id){
-                      if(e.selection.selection_file == true){
+              element.id.forEach((id, index) => {
+                this.ShowData.filter((data: listdata) => data.category == x.category).filter((list: any) => {
+                  list.list.forEach((e: any) => {
+                    if (e.id == id) {
+                      if (e.selection.selection_file == true) {
                         pro.push(true)
                       }
-                      else{
+                      else {
                         pro.push(false)
                       }
                     }
                   })
                 })
-                if(index == element.id.length-1){
+                if (index == element.id.length - 1) {
                   lastId = id
                 }
               })
             });
           }
 
-          this.word += '- ' + x.mode + ' ' + d.name +
+          this.word += '✅ ' + x.mode + ' ' + d.name +
             ((this.labelPosition == 'print') ? ((x.mode == 'ชิ้นงาน') ? ' (ชิ้นงาน)' : ' (ปริ้น)') : ' (ไฟล์)') + '\n'
-          if (this.labelPosition == 'print') this.word += '* ' + d.print_selection + ' ชุด\n'
-          this.word += 'ราคา '
+          if (this.labelPosition == 'print') this.word += '🟩 ' + d.print_selection + ' ชุด\n'
+          this.word += '🟩 ราคา '
           if (this.labelPosition == "file") {
             this.word += d.price_fire
             price += d.price_fire
@@ -191,33 +226,33 @@ export class AppComponent implements OnInit {
           }
           this.word += ' บาท' + '\n'
 
-          
+
           let checkPromotion = pro.every(v => v === true)
           let checkIdLast = d.id == lastId
-          if( checkPromotion &&  checkIdLast && this.labelPosition=="file"){
-            this.word += "*" + d.link![0].name + " ลดราคาเหลือ " + d.link_price + " บาท\n\n"
+          if (checkPromotion && checkIdLast && this.labelPosition == "file") {
+            this.word += "💥" + d.link![0].name + " \n💥ลดราคาเหลือ " + d.link_price + " บาท\n\n"
             price -= tempPrice
             price += d.link_price!
-          }else{
+          } else {
             this.word += '\n'
           }
 
           width += 1 * d.print_selection
-         
+
 
         }
       })
     })
 
     if (this.labelPosition == 'print' || this.labelPosition == '*') {
-      this.word += '- ค่าส่ง' + '\n'
+      this.word += '✅ ค่าส่ง' + '\n'
       let price_print = (width <= 1) ? 30 : (width <= 2) ? 40 : (width <= 3) ? 45 : (width <= 4) ? 50 : (width <= 5) ? 60 : 60
-      this.word += 'ราคา ' + price_print + ' บาท \n\n'
+      this.word += '🟩 ราคา ' + price_print + ' บาท \n\n'
       price += price_print
     }
 
-    this.word += '- ราคารวม\n'
-    this.word += price + ' บาทครับผม\n'
+    this.word += '🍀 ราคารวม\n'
+    this.word += '❤️' + price + ' บาทครับผม\n'
 
     if (getPrice) return price
   }
@@ -236,7 +271,22 @@ export class AppComponent implements OnInit {
   }
 
   public toWorking() {
-    document.getElementById("working")!.scrollIntoView();
+    var e = document.getElementById("working")!
+    e.scrollIntoView();
+  }
+
+  public onSeacrh(id: string) {
+    var el = document.getElementById(id)!
+    el.scrollIntoView({ block: 'center', behavior: 'smooth' })
+
+    el.style.fontWeight = 'bold';
+    el.style.backgroundColor = '#84FFAF';
+    el.style.color = '#000000';
+    setTimeout(() => {
+      el.style.fontWeight = 'normal';
+      el.style.backgroundColor = 'unset';
+      el.style.color = '#A2A2A2';
+    }, 2000);
   }
 
 
@@ -291,3 +341,5 @@ export class DialogAnimationsExampleDialog {
     this.dialogRef.close(this.select);
   }
 }
+
+

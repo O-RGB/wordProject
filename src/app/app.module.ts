@@ -17,10 +17,12 @@ import { FormsModule } from '@angular/forms';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatIconModule} from '@angular/material/icon';
+import { DialogSearchComponent } from './dialog-search/dialog-search.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    DialogSearchComponent
   ],
   imports: [
     BrowserModule,
