@@ -20,6 +20,7 @@ import {MatIconModule} from '@angular/material/icon';
 import { DialogSearchComponent } from './dialog-search/dialog-search.component';
 import {MatTreeModule} from '@angular/material/tree';
 import { TreeNestedComponent } from './treeNested/tree-nested/tree-nested.component';
+import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { TreeNestedComponent } from './treeNested/tree-nested/tree-nested.compon
     MatRadioModule,
     MatDialogModule,
     MatIconModule,
-    MatTreeModule
+    MatTreeModule,
+    MatBottomSheetModule
   ],
   providers: [],
   bootstrap: [AppComponent],

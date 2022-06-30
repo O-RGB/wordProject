@@ -30,6 +30,8 @@ export class AppComponent implements OnInit {
     this.ShowData = this.dataWork
   }
 
+
+
   @ViewChild('autosize', { static: false }) autosize: CdkTextareaAutosize | undefined;
   triggerResize() {
     this._ngZone.onStable.pipe(take(1)).subscribe(() => this.autosize!.resizeToFitContent(true));

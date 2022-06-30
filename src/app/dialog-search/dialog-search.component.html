@@ -4,25 +4,8 @@
     }
 </style>
 
-<mat-dialog-content>
-<body style="overflow: auto;z-index: 99999999999;">
-    <!-- <div  *ngFor="let item of dataShow;let i = index" >
-  
-        <ng-container *ngIf="(i == 0 || i == newCategoray)">
-            <br>
-            <h1 >{{(i >= newCategoray)?"สื่อการสอน":"ใบงาน"}}</h1>
-            
-        </ng-container>
-       
-        
-            <button (click)="closeDialog(item.category,i)" mat-raised-button> {{item.category}}</button>
-
-         
-    
-        
-    </div>  -->
+<mat-dialog-content style="">
+<body style="overflow: auto;">
     <app-tree-nested (onClickManu)="closeDialog($event.name,-1,$event.mode)"></app-tree-nested>
-
-    
 </body>
 </mat-dialog-content>

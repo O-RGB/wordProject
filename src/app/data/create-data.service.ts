@@ -23,6 +23,8 @@ export class CreateDataService {
     productTemp.createData('MATH003', 'คณิตศาสตร์ อ.3', 99, 240, "ซื้อคณิตศาสตร์ครบ 3 ชั้น", ["MATH001", "MATH002", "MATH003"], 280)
     productTemp.createData('MATH004', 'คณิตศาสตร์ ป.1 (เทอม 1)', 150, 200,)
     productTemp.createData('MATH005', 'คณิตศาสตร์ ป.1 (เทอม 2)', 150, 200,)
+    productTemp.createData('MATH006', 'คณิตศาสตร์ ป.6 (เทอม 1)', 100, 200,)
+    productTemp.createData('MATH007', 'คณิตศาสตร์ ป.6 (เทอม 2)', 100, 200,)
     this.MainProduct.push(productTemp)
 
     productTemp = new product('ใบงานพื้นฐาน', this.mode[0])
@@ -47,6 +49,7 @@ export class CreateDataService {
     productTemp.createData('TH002', 'คำพื้นฐานภาษาไทย (เขียนเอง)', 99, 149, "ซื้อคำพื้นฐานภาษาไทยครบ 2 เรื่อง", ["TH002", "TH003"], 99)
     productTemp.createData('TH003', 'คำพื้นฐานภาษาไทย (เส้นประ)', 99, 149, "ซื้อคำพื้นฐานภาษาไทยครบ 2 เรื่อง", ["TH002", "TH003"], 99)
     productTemp.createData('TH004', 'แบบฝึกหัดประสมคำพื้นฐาน', 29)
+    productTemp.createData('TH005', 'การแต่งประโยค-ป.1-3', 69)
     this.MainProduct.push(productTemp)
 
     productTemp = new product('ใบงานภาษาอังกฤษ', this.mode[0])
@@ -62,11 +65,65 @@ export class CreateDataService {
     this.MainProduct.push(productTemp)
 
     productTemp = new product('ใบงานอนุบาล (เหมา)', this.mode[0])
-    productTemp.createData('WALL001', 'คณิตศาสตร์ (เหมา)', 100, -1, "ซื้อครบทุกหมวด (เหมา)", ['WALL001', 'WALL002', 'WALL003', 'WALL004', 'WALL005'], 350)
-    productTemp.createData('WALL002', 'หมวดภาษาไทย (เหมา)', 200, -1, "ซื้อครบทุกหมวด (เหมา)", ['WALL001', 'WALL002', 'WALL003', 'WALL004', 'WALL005'], 350)
-    productTemp.createData('WALL003', 'วิทยาศาสตร์ (เหมา)', 100, -1, "ซื้อครบทุกหมวด (เหมา)", ['WALL001', 'WALL002', 'WALL003', 'WALL004', 'WALL005'], 350)
-    productTemp.createData('WALL004', 'ภาษาอังกฤษ (เหมา)', 100, -1, "ซื้อครบทุกหมวด (เหมา)", ['WALL001', 'WALL002', 'WALL003', 'WALL004', 'WALL005'], 350)
-    productTemp.createData('WALL005', 'รับครบทุกหมวด', 200, -1, "ซื้อครบทุกหมวด (เหมา)", ['WALL001', 'WALL002', 'WALL003', 'WALL004', 'WALL005'], 350)
+    productTemp.createData('WALL001', 'คณิตศาสตร์ (เหมา)', 100, -1, "ซื้อครบทุกหมวด (เหมา)", ['WALL001', 'WALL002', 'WALL003', 'WALL004', 'WALL005', 'WALL006', 'WALL007'], 350)
+    productTemp.createData('WALL002', 'หมวดภาษาไทย (เหมา)', 200, -1, "ซื้อครบทุกหมวด (เหมา)", ['WALL001', 'WALL002', 'WALL003', 'WALL004', 'WALL005', 'WALL006', 'WALL007'], 350)
+    productTemp.createData('WALL003', 'วิทยาศาสตร์ (เหมา)', 100, -1, "ซื้อครบทุกหมวด (เหมา)", ['WALL001', 'WALL002', 'WALL003', 'WALL004', 'WALL005', 'WALL006', 'WALL007'], 350)
+    productTemp.createData('WALL004', 'ภาษาอังกฤษ (เหมา)', 100, -1, "ซื้อครบทุกหมวด (เหมา)", ['WALL001', 'WALL002', 'WALL003', 'WALL004', 'WALL005', 'WALL006', 'WALL007'], 350)
+    productTemp.createData('WALL005', 'คำพื้นฐานภาษาไทย (เหมา)', 100, -1, "ซื้อครบทุกหมวด (เหมา)", ['WALL001', 'WALL002', 'WALL003', 'WALL004', 'WALL005', 'WALL006', 'WALL007'], 350)
+    productTemp.createData('WALL006', 'ศิลปะ เเละ แถม (เหมา)', 100, -1, "ซื้อครบทุกหมวด (เหมา)", ['WALL001', 'WALL002', 'WALL003', 'WALL004', 'WALL005', 'WALL006', 'WALL007'], 350)
+    productTemp.createData('WALL007', 'บัตรคำ เเละ A-Z ก-ฮ ใหม่ (เหมา)', 100, -1, "ซื้อครบทุกหมวด (เหมา)", ['WALL001', 'WALL002', 'WALL003', 'WALL004', 'WALL005', 'WALL006', 'WALL007'], 350)
+    this.MainProduct.push(productTemp)
+
+    productTemp = new product('ในงานตามหน่วยอนุบาล', this.mode[0],"NUMPXXX")
+    productTemp.createData('NUMP001', '01 หน่วย แรกรับประทับใจ ปฐมนิเทศ', 10)
+    productTemp.createData('NUMP002', '02 หน่วย ตัวเรา', 10)
+    productTemp.createData('NUMP003', '03 หน่วย ต้นไม้ที่รัก', 10)
+    productTemp.createData('NUMP004', '05 หน่วย หนูน้อยน่ารัก', 10)
+    productTemp.createData('NUMP005', '06 หน่วย บ้านแสนสุข', 10)
+    productTemp.createData('NUMP006', '07 หน่วย ของเล่นของใช้', 10)
+    productTemp.createData('NUMP007', '08 หน่วย ไม้ดอกไม้ประดับ', 10)
+    productTemp.createData('NUMP008', '09 หน่วย วันเข้าพรรษา', 10)
+    productTemp.createData('NUMP009', '10 หน่วย สัตว์บก', 10)
+    productTemp.createData('NUMP011', '11 หน่วย สัตว์น้ำ', 10)
+    productTemp.createData('NUMP012', '12 หน่วย ปลอดโรคติดต่อ', 10)
+    productTemp.createData('NUMP013', '13 หน่วย พระคุณแม่', 10)
+    productTemp.createData('NUMP014', '14 หน่วย วิทยาศาสตร์น่ารู้', 10)
+    productTemp.createData('NUMP015', '15 หน่วย ผลไม้', 10)
+    productTemp.createData('NUMP016', '16 หน่วย เนื้อ นม ไข่', 10)
+    productTemp.createData('NUMP017', '17 หน่วย น้ำคือชีวิต', 10)
+    productTemp.createData('NUMP018', '18 หน่วย ข้าว', 10)
+    productTemp.createData('NUMP019', '19 หน่วย ผักสดสะอาด', 10)
+    productTemp.createData('NUMP020', '20 หน่วย แมลง', 10)
+    productTemp.createData('NUMP021', '21 หน่วย คมนาคม', 10)
+    productTemp.createData('NUMP022', '22 หน่วย การสื่อสาร', 10)
+    productTemp.createData('NUMP023', '23 หน่วย อากาศ', 10)
+    productTemp.createData('NUMP024', '24 หน่วย คณิตศาสตร์คิดสนุก', 10)
+    productTemp.createData('NUMP025', '25 หน่วย บุคคลที่ควรรู้จัก', 10)
+    productTemp.createData('NUMP026', '26 หน่วย วันลอยกระทง', 10)
+    productTemp.createData('NUMP027', '27 หน่วย พ่อผู้มีพระคุณ', 10)
+    productTemp.createData('NUMP028', '28 หน่วย ดิน หิน ทราย', 10)
+    productTemp.createData('NUMP029', '29 หน่วย เวลา', 10)
+    productTemp.createData('NUMP030', '30 หน่วย วันขึ้นปีใหม่', 10)
+    productTemp.createData('NUMP031', '31 หน่วย วันเด็กแห่งชาติ', 10)
+    productTemp.createData('NUMP032', '32 หน่วย วันครู', 10)
+    productTemp.createData('NUMP033', '33 หน่วย กลางวันกลางคืน', 10)
+    productTemp.createData('NUMP034', '34 หน่วย ฉันรักฤดูหนาว', 10)
+    productTemp.createData('NUMP035', '35 หน่วย ชุมชนที่รัก', 10)
+    productTemp.createData('NUMP036', '36 หน่วย เมืองไทยที่รัก', 10)
+    productTemp.createData('NUMP037', '37 หน่วย วันมาฆบูชา', 10)
+    productTemp.createData('NUMP038', '38 หน่วย วันสงกรานต์', 10)
+    productTemp.createData('NUMP039', '39 หน่วย ฤดูร้อนแสนสนุก', 10)
+    productTemp.createData('NUMP040', '40 หน่วย มดตัวน้อย', 10)
+    productTemp.createData('NUMP041', '41 หน่วย กล้วยน่ารู้', 10)
+    productTemp.createData('NUMP042', '42 หน่วย ขนาด รูปร่าง รูปทรง', 10)
+    productTemp.createData('NUMP043', '43 หน่วย ปริมาตร น้ำหนัก', 10)
+    productTemp.createData('NUMP044', '44 หน่วย รักการอ่าน', 10)
+    productTemp.createData('NUMP045', '45 หน่วย สีสันสดใส', 10)
+    productTemp.createData('NUMP046', '46 หน่วย อวัยวะและประสาทสัมผัส', 10)
+    productTemp.createData('NUMP047', '47 หน่วย ครอบครับหรรษา', 10)
+    productTemp.createData('NUMP048', '48 หน่วย อาชีพในฝัน', 10)
+    productTemp.createData('NUMP049', '49 หน่วย วันคริสต์มาส', 10)
+    productTemp.createData('NUMP050', '50 หน่วย กิจกรรมของเด็ก ๆ', 10)
     this.MainProduct.push(productTemp)
 
   }
@@ -136,16 +193,16 @@ export class CreateDataService {
     return this.ToyProduct
   }
 
-  public getTree():productNode[] {
-    var arrayAll:productNode[] = []
-    let listName:string[] = this.MainProduct.map((product: product) => {return product.category})
-    let name:string = this.mode[0]
-    arrayAll.push({name:name,children:listName})
+  public getTree(): productNode[] {
+    var arrayAll: productNode[] = []
+    let listName: string[] = this.MainProduct.map((product: product) => { return product.category })
+    let name: string = this.mode[0]
+    arrayAll.push({ name: name, children: listName })
 
-    listName = this.ToyProduct.map((product: product) => {return product.category})
+    listName = this.ToyProduct.map((product: product) => { return product.category })
     name = this.mode[1]
-    arrayAll.push({name:name,children:listName})
-    
+    arrayAll.push({ name: name, children: listName })
+
     return arrayAll
   }
 

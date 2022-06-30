@@ -3,6 +3,7 @@ export interface productModel {
     category: string
     mode: string
     list: productDataModel[]
+    special?:string
 }
 export interface productDataModel {
     id: string

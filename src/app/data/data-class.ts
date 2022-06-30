@@ -6,9 +6,11 @@ export class product implements productModel{
     category: string = ""
     mode: string = ""
     list: productDataModel[] = []
-    constructor(category:string,mode:string){
+    special:string | undefined
+    constructor(category:string,mode:string,special?:string){
         this.category = category
         this.mode = mode
+        if(special) this.special = special
     }
     public createData(id: string,name: string,price_fire: number,price_print?: number,promoName?:string,promoList?:string[],link_price?: number):void{
         this.list.push(new productData(id,name,price_fire,price_print,promoName,promoList,link_price))
