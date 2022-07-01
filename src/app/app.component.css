@@ -1,0 +1,69 @@
+.example-section {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    height: 60px;
+  }
+
+  .example-margin {
+    margin: 0 10px;
+  }
+
+  /* .checkbox-column {
+    column-count: 2;
+    column-gap: 2rem;
+  } */
+
+  /* mat-checkbox ::ng-deep .mat-checkbox-inner-container {
+    width: 20px;
+    height: 20px;
+  } */
+
+  :host::ng-deep.mat-checkbox-layout {
+    white-space: normal !important;
+  }
+
+  :host::ng-deep.mat-checkbox-inner-container {
+    margin-top: 4px;
+  }
+
+  *,
+  ::after,
+  ::before {
+    box-sizing: border-box;
+  }
+
+  .button-number{
+    background-color: rgb(76, 76, 76);
+    color: white;
+    border-color: rgb(99, 99, 99);
+    border-style: solid;
+    cursor: pointer;
+  }
+
+  .bottomright {
+     position: fixed;
+     bottom: 0px;
+     right: 0px;
+}
+
+
+.demo {
+     padding: 10px;
+     margin: 5px;
+}
+
+.test-mat-toolbar {
+  position: sticky;
+  top: 0px;
+  width: 100%;
+  background-color: rgb(66, 66, 66);
+
+  padding-top: 10px;
+
+  z-index: 999;
+}
+
+.mat-form-field {
+    margin-right: 8px;
+  }

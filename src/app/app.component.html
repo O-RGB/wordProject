@@ -1,103 +1,37 @@
-<router-outlet></router-outlet>
-
-
-<style>
-  .example-section {
-    display: flex;
-    align-content: center;
-    align-items: center;
-    height: 60px;
-  }
-
-  .example-margin {
-    margin: 0 10px;
-  }
-
-  /* .checkbox-column {
-    column-count: 2;
-    column-gap: 2rem;
-  } */
-
-  /* mat-checkbox ::ng-deep .mat-checkbox-inner-container {
-    width: 20px;
-    height: 20px;
-  } */
-
-  :host::ng-deep.mat-checkbox-layout {
-    white-space: normal !important;
-  }
-
-  :host::ng-deep.mat-checkbox-inner-container {
-    margin-top: 4px;
-  }
-
-  *,
-  ::after,
-  ::before {
-    box-sizing: border-box;
-  }
-
-  .button-number{
-    background-color: rgb(76, 76, 76);
-    color: white;
-    border-color: rgb(99, 99, 99);
-    border-style: solid;
-    cursor: pointer;
-  }
-
-  .bottomright {
-     position: fixed;
-     bottom: 0px;
-     right: 0px;
-}
-
-
-.demo {
-     padding: 10px;
-     margin: 5px;
-}
-
-.test-mat-toolbar {
-  position: sticky;
-  top: 0px;
-  width: 100%;
-  background-color: rgb(66, 66, 66);
-
-  padding-top: 10px;
-
-  z-index: 999;
-}
-
-</style>
-
-
 <div class="demo bottomright" style="z-index: 9999;">
 
-  <button (click)="dialogSearch()" [disabled]="dialogSearchShow" color="" mat-mini-fab style="width: 50px;height: 50px;">
+  <button *ngIf="!disableMode" (click)="dialogSearch()" [disabled]="dialogSearchShow" color="" mat-mini-fab
+    style="width: 50px;height: 50px;">
     <mat-icon style="font-size: 20px;color: white;">search</mat-icon>
   </button>
   <br><br>
-  <button  (click)="clean();toTop()" [disabled]="dialogSearchShow" mat-mini-fab color="primary" style="width: 50px;height: 50px;">
+  <button (click)="clean();toTop()" [disabled]="dialogSearchShow" mat-mini-fab color="primary"
+    style="width: 50px;height: 50px;">
     <mat-icon style="font-size: 20px;">delete_outline</mat-icon>
   </button>
   <br><br>
-  <button [disabled]="dialogSearchShow" (click)="controlCreateword();copyMessage('')" 
-  mat-mini-fab [color]="(newMes=='คัดลอก')?'accent':'warn'" style="width: 50px;height: 50px;">
+  <button [disabled]="dialogSearchShow" (click)="controlCreateword();copyMessage('')" mat-mini-fab
+    [color]="(newMes=='คัดลอก')?'accent':'warn'" style="width: 50px;height: 50px;">
 
     <ng-container [ngSwitch]="newMes">
-      <ng-container *ngSwitchCase="'คัดลอก'"><mat-icon style="font-size: 20px;color: white;">save</mat-icon></ng-container>
-      <ng-container *ngSwitchDefault><mat-icon style="font-size: 20px;color: white;">library_books</mat-icon></ng-container>
+      <ng-container *ngSwitchCase="'คัดลอก'">
+        <mat-icon style="font-size: 20px;color: white;">save</mat-icon>
+      </ng-container>
+      <ng-container *ngSwitchDefault>
+        <mat-icon style="font-size: 20px;color: white;">library_books</mat-icon>
+      </ng-container>
     </ng-container>
   </button>
-  
-  
+  <div style="height: 50px;"></div>
+
 </div>
 
 <html style="width: 100%;">
 
 
 
-<body style="background-color: aliceblue;height: 100%;width: 100%">
+
+<body *ngIf="load" style="background-color: aliceblue;height: 100%;width: 100%">
 
 
   <div id="top" style="align-items: center;width: 100%;">
@@ -108,8 +42,8 @@
 
 
 
-        <h2 style="color: rgb(162, 162, 162);">รูปแบบรายการ</h2>
-        <div class="test-mat-toolbar" style="margin-top: -20px;">
+        <h2 *ngIf="!disableMode" style="color: rgb(162, 162, 162);">รูปแบบรายการ</h2>
+        <div *ngIf="!disableMode" class="test-mat-toolbar" style="margin-top: -20px;">
 
           <mat-radio-group [(ngModel)]="labelPosition">
             <mat-radio-button (change)="clean()" value="file" style="font-size: 15px;">ไฟล์เท่านั้น</mat-radio-button>
@@ -124,8 +58,8 @@
         </div>
 
 
-        <br>
-        <div [ngSwitch]="labelPosition">
+        <br *ngIf="!disableMode">
+        <div *ngIf="!disableMode" [ngSwitch]="labelPosition">
           <div *ngSwitchCase="'file'">
             เลือกไฟล์และคำนวณราคา + โปรโมชัน
           </div>
@@ -141,84 +75,87 @@
           </div>
         </div>
 
-        <br>
+        <br *ngIf="!disableMode">
 
         <ng-container *ngFor="let category of ShowData;let i = index">
 
-          <h1 [id]="category.category" style="color: rgb(162, 162, 162);">{{category.category}}</h1>
+
+
+          <h1 [id]="category.category" style="color: rgb(162, 162, 162);">{{category.category}} &nbsp;
+            <mat-checkbox [(ngModel)]="category.selectAll" (click)="selectAll(i)">&nbsp;</mat-checkbox>
+          </h1>
+
+
           <div class="checkbox-column">
-            <section> 
-               <ng-container *ngFor="let list of category.list;let j = index">
-             
+            <section>
+              <ng-container *ngFor="let list of category.list;let j = index">
 
-              
-              <div [ngSwitch]="labelPosition">
-                <div *ngSwitchCase="'print'">
-            
-                  <p>
-                    <mat-checkbox style="font-size: 15px;"
-                    [disabled]="(list.price_print == -1)?true:false" 
-                    [(ngModel)]="list.selection.selection_print"
-                    (click)="openDialog(i,j)">
-                    {{list.name}}
-                  </mat-checkbox>
 
-                    <span *ngIf="this.ShowData[i].list[j].selection.selection_print">
-                      &nbsp;&nbsp;&nbsp;&nbsp;
-                      <button (click)="upPrintNumber(i,j,false)" class="button-number">-</button>
-                      <input [(ngModel)]="this.ShowData[i].list[j].print_selection" 
-                      style="height: 23px;width: 25px;background-color: rgb(76, 76, 76);color: white;" disabled >
-                      <button (click)="upPrintNumber(i,j,true)" class="button-number">+</button>
-                    </span>
-                    
-                  </p>
 
-                
-                 
-                  
-                  
+                <div [ngSwitch]="labelPosition">
+                  <div *ngSwitchCase="'print'">
+
+                    <p>
+                      <mat-checkbox style="font-size: 15px;" [disabled]="(list.price_print == -1)?true:false"
+                        [(ngModel)]="list.selection.selection_print" (click)="openDialog(i,j)">
+                        {{list.name}}
+                      </mat-checkbox>
+
+                      <span *ngIf="this.ShowData[i].list[j].selection.selection_print">
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <button (click)="upPrintNumber(i,j,false)" class="button-number">-</button>
+                        <input [(ngModel)]="this.ShowData[i].list[j].print_selection"
+                          style="height: 23px;width: 25px;background-color: rgb(76, 76, 76);color: white;" disabled>
+                        <button (click)="upPrintNumber(i,j,true)" class="button-number">+</button>
+                      </span>
+
+                    </p>
+
+
+
+
+
+                  </div>
+                  <div *ngSwitchCase="'file'">
+
+                    <p>
+                      <mat-checkbox style="font-size: 15px;" [(ngModel)]="list.selection.selection_file"
+                        (click)="openDialog(i,j)">
+                        {{list.name}}
+                      </mat-checkbox>
+                    </p>
+
+                  </div>
+                  <div *ngSwitchCase="'*'">
+
+                    <p>
+                      <mat-checkbox style="font-size: 15px;" [(ngModel)]="list.selection.selection_all"
+                        (click)="openDialog(i,j)">
+                        {{list.name}}
+                        {{
+
+                        (this.ShowData[i].list[j].selection.selection_all)?
+                        (this.ShowData[i].list[j].selection.selection_file &&
+                        this.ShowData[i].list[j].selection.selection_print)?'(ไฟล์)(ปริ้น)':((this.ShowData[i].list[j].selection.selection_file)?"(ไฟล์)":(this.ShowData[i].list[j].selection.selection_print)?"(ปริ้น)":''):''}}
+                      </mat-checkbox>
+
+                      <span
+                        *ngIf="this.ShowData[i].list[j].selection.selection_print && this.ShowData[i].list[j].selection.selection_all">
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <button (click)="upPrintNumber(i,j,false)" class="button-number">-</button>
+                        <input [(ngModel)]="this.ShowData[i].list[j].print_selection"
+                          style="height: 23px;width: 25px;background-color: rgb(76, 76, 76);color: white;" disabled>
+                        <button (click)="upPrintNumber(i,j,true)" class="button-number">+</button>
+                      </span>
+
+                    </p>
+
+                  </div>
+
                 </div>
-                <div *ngSwitchCase="'file'">
 
-                  <p>
-                    <mat-checkbox style="font-size: 15px;"
-                    [(ngModel)]="list.selection.selection_file"
-                    (click)="openDialog(i,j)">
-                    {{list.name}}
-                  </mat-checkbox>
-                  </p>
 
-                </div>
-                <div *ngSwitchCase="'*'">
-
-                  <p>
-                    <mat-checkbox style="font-size: 15px;"
-                    [(ngModel)]="list.selection.selection_all"
-                    (click)="openDialog(i,j)">
-                    {{list.name}} 
-                    {{
-                      
-                      (this.ShowData[i].list[j].selection.selection_all)?
-                      (this.ShowData[i].list[j].selection.selection_file && this.ShowData[i].list[j].selection.selection_print)?'(ไฟล์) (ปริ้น)':((this.ShowData[i].list[j].selection.selection_file)?"(ไฟล์)":(this.ShowData[i].list[j].selection.selection_print)?"(ปริ้น)":''):''
-                    }} 
-                  </mat-checkbox>
-
-                    <span *ngIf="this.ShowData[i].list[j].selection.selection_print && this.ShowData[i].list[j].selection.selection_all">
-                      &nbsp;&nbsp;&nbsp;&nbsp;
-                      <button (click)="upPrintNumber(i,j,false)" class="button-number">-</button>
-                      <input [(ngModel)]="this.ShowData[i].list[j].print_selection"
-                      style="height: 23px;width: 25px;background-color: rgb(76, 76, 76);color: white;" disabled >
-                      <button (click)="upPrintNumber(i,j,true)" class="button-number">+</button>
-                    </span>
-
-                  </p>
-
-                </div>
-
-              </div>
-
-           
-            </ng-container>
+              </ng-container>
             </section>
           </div>
           <hr style="border: 1px solid rgb(108, 108, 108);">
@@ -230,26 +167,32 @@
 
         <br>
 
-        <div>
-          <button (click)="showAllData()" mat-raised-button  style="width: 100%;">
+        <div *ngIf="!disableMode">
+          <button (click)="showAllData()" mat-raised-button style="width: 100%;">
             {{(!isshowAll)?'แสดงสื่อการสอนทั้งหมด':'ปิดสื่อการสอนทั้งหมด'}}</button>
         </div>
         <br>
         <div>
-          <button [color]="'accent'" mat-raised-button (click)="controlCreateword()" style="width: 100%;"><mat-icon style="font-size: 20px;">save</mat-icon>สร้างรายการ</button>
+          <button [color]="'accent'" mat-raised-button (click)="controlCreateword()" style="width: 100%;">
+            <mat-icon style="font-size: 20px;">save</mat-icon>สร้างรายการ
+          </button>
         </div>
 
         <br>
 
         <div style="width: 100%;">
-          
+
           <p style="align-items: center;">
             <span>
-                  <button [color]="'warn'" mat-raised-button (click)="copyMessage('This goes to Clipboard')"
-                    style="width: 50%;"><mat-icon style="font-size: 20px;color: white;">library_books</mat-icon>{{newMes}}</button>
+              <button [color]="'warn'" mat-raised-button (click)="copyMessage('This goes to Clipboard')"
+                style="width: 50%;">
+                <mat-icon style="font-size: 20px;color: white;">library_books</mat-icon>{{newMes}}
+              </button>
             </span>
             <span>
-              <button  [color]="'primary'" (click)="clean();toTop()" mat-raised-button style="width: 50%;"><mat-icon style="font-size: 20px;">delete_outline</mat-icon>ล้าง</button>
+              <button [color]="'primary'" (click)="clean();toTop()" mat-raised-button style="width: 50%;">
+                <mat-icon style="font-size: 20px;">delete_outline</mat-icon>ล้าง
+              </button>
             </span>
           </p>
 
@@ -258,7 +201,7 @@
 
         <br>
 
-        <mat-form-field class="example-full-width"  style="width: 100%;height: auto;" appearance="fill">
+        <mat-form-field class="example-full-width" style="width: 100%;height: auto;" appearance="fill">
           <mat-label>ผลลัพธ์</mat-label>
           <textarea id="working" matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" style="overflow: hidden;"
             [(ngModel)]="word" placeholder="คุณไม่จำเป็นต้องกดคลิกที่นี่"></textarea>

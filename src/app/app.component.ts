@@ -1,10 +1,13 @@
 import { Component, Inject, NgZone, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
-import { take } from 'rxjs/operators';
+import { filter, take, throttleTime } from 'rxjs/operators';
 import { DialogSearchComponent } from './dialog-search/dialog-search.component';
 import { CreateDataService } from './data/create-data.service';
 import { productDataModel, productModel, promotion, select } from './data/data-interface';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-root',
@@ -19,18 +22,83 @@ export class AppComponent implements OnInit {
   word: string = ""
 
 
+  focus: string = ''
+  load: boolean = false
+
+  disableMode:boolean = false
+
+
+
+  constructor(public dialog: MatDialog,
+    private _ngZone: NgZone,
+    private datService: CreateDataService,
+    private _snackBar: MatSnackBar,
+    private route: ActivatedRoute,
+    private router: Router) {
+    // setTimeout(() => {
+
+
+    //   this.route.queryParams.subscribe(params => {
+    //     this.focus = params['focus'];
+
+    //     this.datatoy = this.datService.getDataToy(this.focus)
+    //     this.dataWork= this.datService.getDataMain(this.focus)
+    //     console.log(this.datatoy)
+    //     this.load = true
 
 
 
 
-  constructor(public dialog: MatDialog, private _ngZone: NgZone,private datService:CreateDataService) {
+    // });
 
-   }
+    router.events.pipe(
+      filter((event: any) => event instanceof NavigationEnd))
+      .subscribe(event => {
+        console.log(event["url"])
+        if (event["url"].length != 1) {
+          this.focus = decodeURIComponent(event["url"].split("/")[1])
+          console.log(this.focus)
+          this.datatoy = this.datService.getDataToy(this.focus)
+          this.dataWork = this.datService.getDataMain(this.focus)
+          this.ShowData = this.dataWork
+          this.disableMode = true
+          this.load = true
+        } else{
+          this.datatoy = this.datService.getDataToy()
+          this.dataWork = this.datService.getDataMain()
+          this.ShowData = this.dataWork
+          this.load = true
+        }
+
+        if (this.dataWork.length == 0) {
+          if (this.datatoy.length != 0) {
+            this.ShowData = this.datatoy
+          }
+        }
+      });
+
+
+    // }, 50);
+    // this.load = true
+  }
   ngOnInit(): void {
-    this.ShowData = this.dataWork
+    // this.ShowData = this.dataWork
+    // if (this.dataWork.length == 0) {
+    //   if (this.datatoy.length != 0) {
+    //     this.ShowData = this.datatoy
+    //   }
+    // }
   }
 
+  snackBarIsShow: boolean = false
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action);
+    this.snackBarIsShow = true
+  }
 
+  close() {
+    this._snackBar.dismiss()
+  }
 
   @ViewChild('autosize', { static: false }) autosize: CdkTextareaAutosize | undefined;
   triggerResize() {
@@ -39,8 +107,8 @@ export class AppComponent implements OnInit {
 
 
   ShowData: productModel[] = []
-  datatoy: productModel[] = this.datService.getDataToy()
-  dataWork: productModel[] = this.datService.getDataMain()
+  datatoy: productModel[] = []
+  dataWork: productModel[] = []
   public openDialog(i: number, j: number): void {
     this.i = i
     this.j = j
@@ -63,6 +131,72 @@ export class AppComponent implements OnInit {
         });
       }
 
+    }
+
+    if (this.ShowData[this.i].special) {
+      if (this.ShowData[this.i].special == "NUMPXXX") {
+        // this.openSnackBar('ทุก ๆ 10 หน่วยจะแถม 2 ฟรี','')
+        this.NUMPXXX(this.ShowData[this.i])
+      }
+    }
+
+  }
+
+  NUMPXXXPROMO: number = 0
+  NUMPXXX(data: productModel) {
+    setTimeout(() => {
+ 
+      let checkTrue = data.list.map((data: productDataModel) => data.selection.selection_file)
+      let temp = checkTrue.some(x => x === true)
+      if (temp) {
+        let count = checkTrue.filter(Boolean).length;
+        if (count == 50) {
+          this.openSnackBar('🍀(50 หน่วย)🍀 🔥ราคาเพียง 390 บาท🔥', '')
+          this.NUMPXXXPROMO = 110
+          setTimeout(() => {
+            this.close()
+          }, 3000);
+        } else {
+          this.NUMPXXXPROMO = 0
+          let config = [10, 22, 34, 48]
+          if (config.includes(count)) {
+            this.openSnackBar('🍀(' + (count.toString()[0]) + '0 หน่วย)🍀 \n🔥ทุก ๆ 10 หน่วยจะแถม 2 ฟรี🔥', '')
+          } else if (config.includes(count - 1)) {
+            this.openSnackBar('🍀(' + (count.toString()[0]) + '0 หน่วย) (แถม ' + (Number(count.toString()[1])) + ')🍀 \n🔥เลือกหน่วยฟรีอีก 1🔥', '')
+          } else if (config.includes(count - 2)) {
+            this.openSnackBar('🍀รายการตอนนี้🍀 (' + (count.toString()[0]) + '0 หน่วย) (แถม ' + (Number(count.toString()[1])) + ')', '')
+            this.NUMPXXXPROMO = (Number(count.toString()[0]) * 2) * 10
+            setTimeout(() => {
+              this.close()
+            }, 3000);
+          } else {
+            this.close()
+            this.NUMPXXXPROMO = 0
+          }
+        }
+      }
+      else {
+        this.close()
+        this.NUMPXXXPROMO = 0
+      }
+    }, 200);
+  }
+
+  selectAll(i: number) {
+    let checkTrue = this.ShowData[i].list.map((data: productDataModel) => data.selection.selection_file)
+    let temp = checkTrue.every(x => x === true)
+    if (temp) {
+      this.ShowData[i].list.forEach(data => { data.selection.selection_file = false })
+      this.ShowData[i].selectAll = true
+      this.NUMPXXXPROMO = 0
+
+
+    } else {
+      this.ShowData[i].list.forEach(data => { data.selection.selection_file = true })
+      this.ShowData[i].selectAll = false
+      if (this.ShowData[i].special) {
+        this.NUMPXXX(this.ShowData[i])
+      }
     }
   }
 
@@ -136,7 +270,7 @@ export class AppComponent implements OnInit {
     if (this.labelPosition == '*') {
 
     }
-    
+
 
   }
 
@@ -161,6 +295,7 @@ export class AppComponent implements OnInit {
       }
     }
   }
+
 
 
   public checkCreateWord(getPrice: boolean = false): any {
@@ -211,9 +346,14 @@ export class AppComponent implements OnInit {
             });
           }
 
+
+
+
           this.word += '✅ ' + x.mode + ' ' + d.name +
             ((this.labelPosition == 'print') ? ((x.mode == 'ชิ้นงาน') ? ' (ชิ้นงาน)' : ' (ปริ้น)') : ' (ไฟล์)') + '\n'
           if (this.labelPosition == 'print') this.word += '🟩 ' + d.print_selection + ' ชุด\n'
+
+
           this.word += '🟩 ราคา '
           if (this.labelPosition == "file") {
             this.word += d.price_fire
@@ -226,8 +366,11 @@ export class AppComponent implements OnInit {
           this.word += ' บาท' + '\n'
 
 
+
+
           let checkPromotion = pro.every(v => v === true)
           let checkIdLast = d.id == lastId
+
           if (checkPromotion && checkIdLast && this.labelPosition == "file") {
             this.word += "💥" + d.link![0].name + " \n💥ลดราคาเหลือ " + d.link_price + " บาท\n\n"
             price -= tempPrice
@@ -236,10 +379,12 @@ export class AppComponent implements OnInit {
             this.word += '\n'
           }
 
-          width += 1 * d.print_selection
-
-
         }
+
+        width += 1 * d.print_selection
+
+
+
       })
     })
 
@@ -250,36 +395,54 @@ export class AppComponent implements OnInit {
       price += price_print
     }
 
+    //special
+    if (this.NUMPXXXPROMO > 0) {
+      price -= this.NUMPXXXPROMO
+      this.word += "💥" + 'ส่วนลดราคาแถมตามหน่วย ' + (this.NUMPXXXPROMO.toString()[0]) + ' หน่วย' + " \n💥ลดราคา -" + this.NUMPXXXPROMO + " บาท\n\n"
+    }
+
+    //.
+    //.
+    //.
+    //special
+
     this.word += '🍀 ราคารวม\n'
     this.word += '❤️' + price + ' บาทครับผม\n'
 
     if (getPrice) return price
   }
 
+  defaultMode() {
+
+  }
+
 
 
   public clean() {
     this.word = ''
-    this.ShowData.forEach((x: productModel) =>
+    this.NUMPXXXPROMO = 0
+    this.ShowData.forEach((x: productModel) => {
+      x.selectAll = false
       x.list.forEach((d: productDataModel) => {
         d.selection.selection_all = false
         d.selection.selection_file = false
         d.selection.selection_print = false
         d.print_selection = 1
-      }))
+      })
+    })
   }
 
   public toWorking() {
     setTimeout(() => {
       var e = document.getElementById("working")!
       e.scrollIntoView({ block: 'center', behavior: 'smooth' });
-      
+
     }, 100);
   }
 
   public toTop() {
     var e = document.getElementById("top")!
-    e.scrollIntoView({behavior: 'smooth' });
+    e.scrollIntoView({ behavior: 'smooth' });
   }
 
   public onSeacrh(id: string) {

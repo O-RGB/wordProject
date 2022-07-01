@@ -21,6 +21,7 @@ import { DialogSearchComponent } from './dialog-search/dialog-search.component';
 import {MatTreeModule} from '@angular/material/tree';
 import { TreeNestedComponent } from './treeNested/tree-nested/tree-nested.component';
 import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
     MatDialogModule,
     MatIconModule,
     MatTreeModule,
-    MatBottomSheetModule
+    MatBottomSheetModule,
+    MatSnackBarModule
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -7,6 +7,7 @@ export class product implements productModel{
     mode: string = ""
     list: productDataModel[] = []
     special:string | undefined
+    selectAll: boolean = false
     constructor(category:string,mode:string,special?:string){
         this.category = category
         this.mode = mode

@@ -3,6 +3,7 @@ export interface productModel {
     category: string
     mode: string
     list: productDataModel[]
+    selectAll:boolean
     special?:string
 }
 export interface productDataModel {
