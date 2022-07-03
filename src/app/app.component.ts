@@ -1,4 +1,4 @@
-import { Component, Inject, NgZone, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, NgZone, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 import { filter, take, throttleTime } from 'rxjs/operators';
@@ -88,6 +88,55 @@ export class AppComponent implements OnInit {
     //     this.ShowData = this.datatoy
     //   }
     // }
+
+  }
+
+  selectionTemp: string[] = []
+  @ViewChild('scrollOrder') private scrollOrder!: ElementRef;
+  checkSelectionTemp() {
+    let tempSelection: string[] = []
+    setTimeout(() => {
+
+      if (this.labelPosition == 'file') {
+        this.ShowData.forEach((data: productModel) =>
+          data.list.forEach((list: productDataModel) => {
+            if (list.selection.selection_file) {
+              tempSelection.push(list.name)
+            }
+          })
+        )
+
+      }else if (this.labelPosition == 'print') {
+        this.ShowData.forEach((data: productModel) =>
+          data.list.forEach((list: productDataModel) => {
+            if (list.selection.selection_print) {
+              tempSelection.push(list.name + "(ปริ้น)")
+            }
+          })
+        )
+
+      }else if (this.labelPosition == '*') {
+        this.ShowData.forEach((data: productModel) =>
+          data.list.forEach((list: productDataModel) => {
+            if (list.selection.selection_print && list.selection.selection_file){
+              tempSelection.push(list.name + "(ไฟล์)(ปริ้น)")
+            } else if (list.selection.selection_print) {
+              tempSelection.push(list.name + "(ไฟล์)")
+            } else if (list.selection.selection_file) {
+              tempSelection.push(list.name + "(ปริ้น)")
+            }  
+          })
+        )
+
+      }
+
+      this.selectionTemp = tempSelection
+      try {
+        this.scrollOrder.nativeElement.scrollTop = this.scrollOrder.nativeElement.scrollHeight;
+      } catch (err) { }
+
+    }, 50);
+
   }
 
   snackBarIsShow: boolean = false
@@ -112,6 +161,7 @@ export class AppComponent implements OnInit {
   public openDialog(i: number, j: number): void {
     this.i = i
     this.j = j
+    this.checkSelectionTemp()
     if (this.labelPosition == "*") {
       if (!this.ShowData[this.i].list[this.j].selection.selection_all) {
         const dialogRef = this.dialog.open(DialogAnimationsExampleDialog,
@@ -127,7 +177,7 @@ export class AppComponent implements OnInit {
             this.ShowData[this.i].list[this.j].selection = result
             this.ShowData[this.i].list[this.j].print_selection = 1
           }
-
+          this.checkSelectionTemp()
         });
       }
 
@@ -300,6 +350,7 @@ export class AppComponent implements OnInit {
 
 
 
+
   public checkCreateWord(getPrice: boolean = false): any {
     this.word = '🔥🔥รายการนะครับ🔥🔥\n'
     let width = 0
@@ -465,6 +516,7 @@ export class AppComponent implements OnInit {
         d.print_selection = 1
       })
     })
+    this.checkSelectionTemp()
   }
 
   public toWorking() {
@@ -476,8 +528,10 @@ export class AppComponent implements OnInit {
   }
 
   public toTop() {
-    var e = document.getElementById("top")!
-    e.scrollIntoView({ behavior: 'smooth' });
+    setTimeout(() => {
+      var e = document.getElementById("top")!
+      e.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
   }
 
   public onSeacrh(id: string) {

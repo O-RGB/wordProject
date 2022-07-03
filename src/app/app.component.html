@@ -1,5 +1,4 @@
 <div class="demo bottomright" style="z-index: 9999;">
-
   <button *ngIf="!disableMode" (click)="dialogSearch()" [disabled]="dialogSearchShow" color="" mat-mini-fab
     style="width: 50px;height: 50px;">
     <mat-icon style="font-size: 20px;color: white;">search</mat-icon>
@@ -25,6 +24,17 @@
   <div style="height: 50px;"></div>
 
 </div>
+
+
+<!-- <div style="position: fixed;z-index: 9999;margin-top: 35px;width: 100%;">
+  <div style="height: auto;background-color:aqua ;overflow: hidden;">
+    <div style="padding: 20px;">
+
+      <h3 >พื้นฐานอนุบาล 1_Page_001-tile.jpg</h3>
+    </div>
+
+  </div>
+</div> -->
 
 <html style="width: 100%;">
 
@@ -75,6 +85,21 @@
           </div>
         </div>
 
+
+        <div class="test2-mat-toolbar" >
+
+          <h2 style="color: rgb(162, 162, 162);">รายการที่เลือก</h2>
+          <div #scrollOrder style="overflow: auto;max-height: 100px;padding: 10px;margin-top: -10px;">
+            <ul>
+              <li *ngFor="let temp of selectionTemp">
+                {{temp}}
+              </li>
+            </ul>
+          </div>
+
+          <div style="height: 5px;"></div>
+        </div>
+
         <br *ngIf="!disableMode">
 
         <ng-container *ngFor="let category of ShowData;let i = index">
@@ -82,7 +107,8 @@
 
 
           <h1 [id]="category.category" style="color: rgb(162, 162, 162);">{{category.category}} &nbsp;
-            <mat-checkbox *ngIf="labelPosition == 'file'" [(ngModel)]="category.selectAll" (click)="selectAll(i)">&nbsp;</mat-checkbox>
+            <mat-checkbox *ngIf="labelPosition == 'file'" [(ngModel)]="category.selectAll" (click)="selectAll(i)">&nbsp;
+            </mat-checkbox>
           </h1>
 
 
@@ -203,8 +229,8 @@
 
         <mat-form-field class="example-full-width" style="width: 100%;height: auto;" appearance="fill">
           <mat-label>ผลลัพธ์</mat-label>
-          <textarea disabled="true" id="working" matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" style="overflow: hidden;"
-            [(ngModel)]="word" placeholder="คุณไม่จำเป็นต้องกดคลิกที่นี่"></textarea>
+          <textarea disabled="true" id="working" matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize"
+            style="overflow: hidden;" [(ngModel)]="word" placeholder="คุณไม่จำเป็นต้องกดคลิกที่นี่"></textarea>
         </mat-form-field>
 
       </mat-card-actions>

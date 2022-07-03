@@ -64,6 +64,17 @@
   z-index: 999;
 }
 
+.test2-mat-toolbar {
+  position: sticky;
+  top: 35px;
+  width: 100%;
+  background-color: rgb(66, 66, 66);
+
+  padding-top: 10px;
+
+  z-index: 999;
+}
+
 .mat-form-field {
     margin-right: 8px;
   }
