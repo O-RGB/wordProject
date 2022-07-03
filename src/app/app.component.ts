@@ -25,7 +25,7 @@ export class AppComponent implements OnInit {
   focus: string = ''
   load: boolean = false
 
-  disableMode:boolean = false
+  disableMode: boolean = false
 
 
 
@@ -63,7 +63,7 @@ export class AppComponent implements OnInit {
           this.ShowData = this.dataWork
           this.disableMode = true
           this.load = true
-        } else{
+        } else {
           this.datatoy = this.datService.getDataToy()
           this.dataWork = this.datService.getDataMain()
           this.ShowData = this.dataWork
@@ -145,7 +145,7 @@ export class AppComponent implements OnInit {
   NUMPXXXPROMO: number = 0
   NUMPXXX(data: productModel) {
     setTimeout(() => {
- 
+
       let checkTrue = data.list.map((data: productDataModel) => data.selection.selection_file)
       let temp = checkTrue.some(x => x === true)
       if (temp) {
@@ -157,7 +157,7 @@ export class AppComponent implements OnInit {
             this.close()
           }, 3000);
         } else {
-          this.NUMPXXXPROMO = 0
+
           let config = [10, 22, 34, 48]
           if (config.includes(count)) {
             this.openSnackBar('🍀(' + (count.toString()[0]) + '0 หน่วย)🍀 \n🔥ทุก ๆ 10 หน่วยจะแถม 2 ฟรี🔥', '')
@@ -171,7 +171,9 @@ export class AppComponent implements OnInit {
             }, 3000);
           } else {
             this.close()
-            this.NUMPXXXPROMO = 0
+            if (count < 12) {
+              this.NUMPXXXPROMO = 0
+            }
           }
         }
       }
@@ -302,11 +304,14 @@ export class AppComponent implements OnInit {
     this.word = '🔥🔥รายการนะครับ🔥🔥\n'
     let width = 0
     let price = 0
-    this.ShowData.forEach((x: productModel) => {
+    this.ShowData.forEach((x: productModel, indexI: number) => {
 
       let dataPromotion = []
       let isFull
       let tempPrice = 0
+      //special
+      let detactNUMPXXXStart = 0//นับจำนวนบรรทัดเพื่อลบออกแล้วแสดงแค่ number
+      let detactNUMPXXXEnd = 0//นับจำนวนบรรทัดเพื่อลบออกแล้วแสดงแค่ number
       x.list.forEach((d: productDataModel, index: number) => {
 
 
@@ -346,7 +351,13 @@ export class AppComponent implements OnInit {
             });
           }
 
-
+          //special NUMPXXX
+          // if (x.special) {
+          //   if (x.special == "NUMPXXX") {
+          //     if(detactNUMPXXXStart == 0)
+          //     detactNUMPXXXStart = this.word.split("\n").length
+          //   }
+          // }
 
 
           this.word += '✅ ' + x.mode + ' ' + d.name +
@@ -379,18 +390,41 @@ export class AppComponent implements OnInit {
             this.word += '\n'
           }
 
+          width += (1 * d.print_selection)
+          // console.log(this.word)
+
+          //special NUMPXXX
+          // if (x.special) {
+          //   if (x.special == "NUMPXXX") {
+          //     detactNUMPXXXEnd  =  this.word.split("\n").length
+          //   }
+          // }
+
         }
 
-        width += 1 * d.print_selection
 
 
 
       })
+
+      // if(detactNUMPXXXStart > 0 && detactNUMPXXXEnd > 0){
+      //   console.log(detactNUMPXXXStart)
+      //   console.log(detactNUMPXXXEnd)
+
+      //   let temp = this.word.split("\n")
+      //   for (let index = detactNUMPXXXStart; index <= detactNUMPXXXEnd-1; index++) {
+      //     temp.splice(index, 1);
+      //   }
+      // }
+
     })
 
     if (this.labelPosition == 'print' || this.labelPosition == '*') {
       this.word += '✅ ค่าส่ง' + '\n'
+      console.log(width)
       let price_print = (width <= 1) ? 30 : (width <= 2) ? 40 : (width <= 3) ? 45 : (width <= 4) ? 50 : (width <= 5) ? 60 : 60
+      console.log(price_print)
+
       this.word += '🟩 ราคา ' + price_print + ' บาท \n\n'
       price += price_print
     }
@@ -399,6 +433,7 @@ export class AppComponent implements OnInit {
     if (this.NUMPXXXPROMO > 0) {
       price -= this.NUMPXXXPROMO
       this.word += "💥" + 'ส่วนลดราคาแถมตามหน่วย ' + (this.NUMPXXXPROMO.toString()[0]) + ' หน่วย' + " \n💥ลดราคา -" + this.NUMPXXXPROMO + " บาท\n\n"
+      // let temp = this.word.split("\n")
     }
 
     //.
@@ -475,8 +510,10 @@ export class AppComponent implements OnInit {
     document.execCommand('copy');
     document.body.removeChild(selBox);
     this.newMes = "Copy!!"
+    this.openSnackBar('🧡คัดลอกแล้ว!!🧡', '')
     setTimeout(() => {
       this.newMes = 'คัดลอก'
+      this.close()
     }, 1000);
   }
 

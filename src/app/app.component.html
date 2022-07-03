@@ -10,7 +10,7 @@
     <mat-icon style="font-size: 20px;">delete_outline</mat-icon>
   </button>
   <br><br>
-  <button [disabled]="dialogSearchShow" (click)="controlCreateword();copyMessage('')" mat-mini-fab
+  <button [disabled]="dialogSearchShow" (click)="controlCreateword()" mat-mini-fab
     [color]="(newMes=='คัดลอก')?'accent':'warn'" style="width: 50px;height: 50px;">
 
     <ng-container [ngSwitch]="newMes">
@@ -37,13 +37,13 @@
   <div id="top" style="align-items: center;width: 100%;">
     <mat-card style="height: auto;width: 100%;">
       <mat-card-title>ระบบสร้างรายการ</mat-card-title>
-      <mat-card-subtitle>เลือกงานที่ต้องการสร้าง <br>*เวอร์ชัน Bata Test ver.1.5 ทดลองใช้งานจริงแล้ว</mat-card-subtitle>
+      <mat-card-subtitle>เลือกงานที่ต้องการสร้าง <br>*เวอร์ชัน Bata ver.1.8 แก้บัคแล้ว</mat-card-subtitle>
       <mat-card-actions style="padding: 30px;">
 
 
 
         <h2 *ngIf="!disableMode" style="color: rgb(162, 162, 162);">รูปแบบรายการ</h2>
-        <div *ngIf="!disableMode" class="test-mat-toolbar" style="margin-top: -20px;">
+        <div *ngIf="!disableMode" class="test-mat-toolbar" style="margin-top: -10px;">
 
           <mat-radio-group [(ngModel)]="labelPosition">
             <mat-radio-button (change)="clean()" value="file" style="font-size: 15px;">ไฟล์เท่านั้น</mat-radio-button>
@@ -82,7 +82,7 @@
 
 
           <h1 [id]="category.category" style="color: rgb(162, 162, 162);">{{category.category}} &nbsp;
-            <mat-checkbox [(ngModel)]="category.selectAll" (click)="selectAll(i)">&nbsp;</mat-checkbox>
+            <mat-checkbox *ngIf="labelPosition == 'file'" [(ngModel)]="category.selectAll" (click)="selectAll(i)">&nbsp;</mat-checkbox>
           </h1>
 
 
@@ -203,7 +203,7 @@
 
         <mat-form-field class="example-full-width" style="width: 100%;height: auto;" appearance="fill">
           <mat-label>ผลลัพธ์</mat-label>
-          <textarea id="working" matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" style="overflow: hidden;"
+          <textarea disabled="true" id="working" matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" style="overflow: hidden;"
             [(ngModel)]="word" placeholder="คุณไม่จำเป็นต้องกดคลิกที่นี่"></textarea>
         </mat-form-field>
 

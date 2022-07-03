@@ -46,15 +46,15 @@ export class CreateDataService {
 
     productTemp = new product('ใบงานภาษาไทย', this.mode[0])
     productTemp.createData('TH001', 'พื้นฐาน ภาษาไทย', 99, 240)
-    productTemp.createData('TH002', 'คำพื้นฐานภาษาไทย (เขียนเอง)', 99, 149, "ซื้อคำพื้นฐานภาษาไทยครบ 2 เรื่อง", ["TH002", "TH003"], 99)
-    productTemp.createData('TH003', 'คำพื้นฐานภาษาไทย (เส้นประ)', 99, 149, "ซื้อคำพื้นฐานภาษาไทยครบ 2 เรื่อง", ["TH002", "TH003"], 99)
+    productTemp.createData('TH002', 'คำพื้นฐานภาษาไทย (เขียนเอง)', 69, 149, "ซื้อคำพื้นฐานภาษาไทยครบ 2 เรื่อง", ["TH002", "TH003"], 99)
+    productTemp.createData('TH003', 'คำพื้นฐานภาษาไทย (เส้นประ)', 69, 149, "ซื้อคำพื้นฐานภาษาไทยครบ 2 เรื่อง", ["TH002", "TH003"], 99)
     productTemp.createData('TH004', 'แบบฝึกหัดประสมคำพื้นฐาน', 29)
     productTemp.createData('TH005', 'การแต่งประโยค-ป.1-3', 69)
     this.MainProduct.push(productTemp)
 
     productTemp = new product('ใบงานภาษาอังกฤษ', this.mode[0])
-    productTemp.createData('ENG001', 'คำพื้นฐานอังกฤษ (เขียนเอง)', 99, 149, "ซื้อคำพื้นฐานอังกฤษครบ 2 เรื่อง", ["ENG001", "ENG002"], 99)
-    productTemp.createData('ENG002', 'คำพื้นฐานอังกฤษ (เส้นประ)', 99, 149, "ซื้อคำพื้นฐานอังกฤษครบ 2 เรื่อง", ["ENG001", "ENG002"], 99)
+    productTemp.createData('ENG001', 'คำพื้นฐานอังกฤษ (เขียนเอง)', 69, 149, "ซื้อคำพื้นฐานอังกฤษครบ 2 เรื่อง", ["ENG001", "ENG002"], 99)
+    productTemp.createData('ENG002', 'คำพื้นฐานอังกฤษ (เส้นประ)', 69, 149, "ซื้อคำพื้นฐานอังกฤษครบ 2 เรื่อง", ["ENG001", "ENG002"], 99)
     this.MainProduct.push(productTemp)
 
     productTemp = new product('แบบฝึกหัดพื้นฐาน', this.mode[0])
