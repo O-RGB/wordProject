@@ -250,6 +250,7 @@ export class AppComponent implements OnInit {
         this.NUMPXXX(this.ShowData[i])
       }
     }
+    this.checkSelectionTemp()
   }
 
 
